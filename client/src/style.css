@@ -703,3 +703,356 @@ body.touch-dragging .playing-card {
 .modalTotals b{color:#ffd700}
 .modalReady{margin:8px 0 2px;text-align:center;color:rgba(255,255,255,.7);font-size:.82rem;font-weight:900}
 .modalReady b{color:#ffd700}
+
+/* Phase 10.1 iPhone/WebKit viewport fixes
+   iOS Chrome/Safari keep browser chrome over the bottom of the page. These rules
+   reserve visual space so the hand/cards are not hidden by the toolbar and make
+   landscape use a compact dedicated layout. */
+html, body, #root {
+  width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+@supports (-webkit-touch-callout: none) {
+  body {
+    min-height: -webkit-fill-available;
+    overscroll-behavior: none;
+  }
+
+  .appShell {
+    height: 100svh !important;
+    min-height: -webkit-fill-available !important;
+  }
+
+  .gameArea {
+    height: 100svh !important;
+    min-height: 100svh !important;
+  }
+}
+
+@supports (-webkit-touch-callout: none) and (max-width: 620px) and (orientation: portrait) {
+  .gameArea {
+    grid-template-rows: auto auto minmax(360px, 1fr) 0 176px !important;
+    padding: 8px 10px calc(84px + env(safe-area-inset-bottom, 0px)) !important;
+    gap: 6px !important;
+  }
+
+  .roundBanner {
+    min-height: 58px !important;
+  }
+
+  .topBar {
+    min-height: 126px !important;
+    align-content: start !important;
+  }
+
+  .topBar h1 {
+    font-size: 1.48rem !important;
+    line-height: 1.02 !important;
+    white-space: normal !important;
+  }
+
+  .roomActions {
+    flex-wrap: wrap !important;
+    overflow: visible !important;
+    row-gap: 8px !important;
+  }
+
+  .roomActions .blue,
+  .roomActions .gold {
+    min-height: 42px !important;
+    padding: 10px 12px !important;
+    font-size: .86rem !important;
+  }
+
+  .table {
+    min-height: 360px !important;
+  }
+
+  .centerPiles {
+    top: 50% !important;
+    transform: translate(-50%, -50%) scale(.96) !important;
+  }
+
+  .botArea.top {
+    top: 4px !important;
+    transform: translateX(-50%) scale(.9) !important;
+  }
+
+  .botArea.left,
+  .botArea.right {
+    top: 52% !important;
+    transform: translateY(-50%) scale(.9) !important;
+  }
+
+  .handPanel {
+    height: 176px !important;
+    padding: 10px 12px !important;
+    transform: translateY(-78px) !important;
+    margin-bottom: 0 !important;
+    position: relative !important;
+    z-index: 12 !important;
+    overflow: hidden !important;
+  }
+
+  .handHeader {
+    min-height: 44px !important;
+    align-items: flex-start !important;
+  }
+
+  .handActions {
+    gap: 7px !important;
+    max-width: 68% !important;
+    flex-wrap: wrap !important;
+  }
+
+  .handActions .blue,
+  .handActions .gold {
+    min-height: 40px !important;
+    padding: 8px 10px !important;
+    font-size: .82rem !important;
+  }
+
+  .handCards {
+    height: 102px !important;
+    padding: 8px 8px 12px !important;
+    align-items: flex-start !important;
+  }
+
+  .handCards .playing-card,
+  .playing-card {
+    width: 58px !important;
+    height: 86px !important;
+  }
+}
+
+@supports (-webkit-touch-callout: none) and (orientation: landscape) and (max-height: 520px) {
+  .appShell {
+    height: 100svh !important;
+  }
+
+  .gameArea {
+    height: 100svh !important;
+    min-height: 100svh !important;
+    width: 100vw !important;
+    grid-template-rows: 34px 34px minmax(142px, 1fr) 0 104px !important;
+    padding: 3px 6px calc(8px + env(safe-area-inset-bottom, 0px)) !important;
+    gap: 3px !important;
+  }
+
+  .roundBanner {
+    min-height: 34px !important;
+    padding: 3px 9px !important;
+    border-radius: 10px !important;
+  }
+
+  .tinyTitle {
+    font-size: .46rem !important;
+  }
+
+  .roundTitle {
+    font-size: .78rem !important;
+  }
+
+  .roundCards {
+    padding: 2px 8px !important;
+    border-radius: 9px !important;
+  }
+
+  .roundCards strong {
+    font-size: 1rem !important;
+  }
+
+  .roundCards span,
+  .goal small {
+    display: none !important;
+  }
+
+  .pill {
+    font-size: .52rem !important;
+    padding: 1px 7px !important;
+  }
+
+  .topBar {
+    min-height: 34px !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 6px !important;
+    align-items: center !important;
+  }
+
+  .topBar h1 {
+    font-size: .9rem !important;
+    letter-spacing: .1em !important;
+    white-space: nowrap !important;
+    flex: 0 0 auto !important;
+  }
+
+  .topBar > .status {
+    padding: 3px 8px !important;
+    font-size: .58rem !important;
+    flex: 0 0 auto !important;
+  }
+
+  .roomActions {
+    margin-left: auto !important;
+    width: auto !important;
+    overflow: hidden !important;
+    gap: 4px !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .roomActions .blue,
+  .roomActions .gold {
+    min-height: 28px !important;
+    padding: 5px 7px !important;
+    font-size: .58rem !important;
+    border-radius: 8px !important;
+  }
+
+  .table {
+    min-height: 142px !important;
+    overflow: visible !important;
+  }
+
+  .botArea.top {
+    top: 1px !important;
+    transform: translateX(-50%) scale(.74) !important;
+    z-index: 5 !important;
+  }
+
+  .botArea.left {
+    left: 4px !important;
+    top: 55% !important;
+    transform: translateY(-50%) scale(.72) !important;
+  }
+
+  .botArea.right {
+    right: 4px !important;
+    top: 55% !important;
+    transform: translateY(-50%) scale(.72) !important;
+  }
+
+  .botPlayer.horizontal {
+    min-width: 230px !important;
+    gap: 9px !important;
+    padding: 5px 8px !important;
+  }
+
+  .botPlayer.vertical {
+    min-width: 66px !important;
+    padding: 5px !important;
+    gap: 4px !important;
+  }
+
+  .botName {
+    font-size: .62rem !important;
+    padding: 3px 7px !important;
+    max-width: 72px !important;
+  }
+
+  .cardCount {
+    font-size: .56rem !important;
+    padding: 2px 6px !important;
+  }
+
+  .turnBadge,
+  .dropBadge {
+    font-size: .48rem !important;
+    padding: 1px 5px !important;
+  }
+
+  .botPlayer .playing-card.small,
+  .botPlayer .playing-card.back,
+  .botPlayer .emptyBack {
+    width: 32px !important;
+    height: 45px !important;
+  }
+
+  .botPlayer.vertical .cardBackStack.vertical .overlap {
+    margin-top: -25px !important;
+  }
+
+  .botPlayer.horizontal .cardBackStack.horizontal .overlap {
+    margin-left: -11px !important;
+  }
+
+  .centerPiles {
+    top: 62% !important;
+    transform: translate(-50%, -50%) scale(.66) !important;
+    z-index: 2 !important;
+  }
+
+  .phaseHint {
+    font-size: .56rem !important;
+    padding: 3px 8px !important;
+  }
+
+  .centerPiles small {
+    margin: 3px 0 !important;
+  }
+
+  .piles {
+    gap: 18px !important;
+  }
+
+  .handPanel {
+    height: 104px !important;
+    padding: 5px 8px !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    position: relative !important;
+    z-index: 12 !important;
+  }
+
+  .handHeader {
+    font-size: .62rem !important;
+    min-height: 30px !important;
+  }
+
+  .greenDot {
+    width: 8px !important;
+    height: 8px !important;
+    margin-right: 5px !important;
+  }
+
+  .handActions {
+    max-width: 74% !important;
+    gap: 4px !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .handActions span {
+    font-size: .62rem !important;
+  }
+
+  .handActions .blue,
+  .handActions .gold {
+    min-height: 28px !important;
+    padding: 5px 7px !important;
+    font-size: .58rem !important;
+    border-radius: 8px !important;
+  }
+
+  .handCards {
+    height: 66px !important;
+    padding: 3px 6px 4px !important;
+    gap: 6px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    align-items: flex-start !important;
+  }
+
+  .handCards .playing-card,
+  .playing-card {
+    width: 42px !important;
+    height: 62px !important;
+    padding: 5px !important;
+    border-radius: 8px !important;
+  }
+
+  .corner {
+    font-size: .78rem !important;
+  }
+}
