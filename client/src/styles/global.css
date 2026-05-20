@@ -1,0 +1,9 @@
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: radial-gradient(ellipse at 50% 40%, #1a5c38 0%, #0d3d24 55%, #061910 100%);
+  color: white;
+  font-family: Georgia, serif;
+}
+button { font-family: inherit; }
+input { font-family: inherit; }

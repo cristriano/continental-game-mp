@@ -1,0 +1,705 @@
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% 40%,#185c38 0%,#0b3d23 58%,#061910 100%);color:white;font-family:Georgia,serif;overflow:hidden}button{cursor:pointer}button:disabled{opacity:.45;cursor:not-allowed}.appShell{display:grid;grid-template-columns:270px 1fr;height:100vh;width:100vw}.roundLog{height:100vh;background:rgba(0,0,0,.34);border-right:1px solid rgba(255,215,0,.2);padding:10px;overflow:hidden}.logHeader{display:flex;justify-content:space-between;color:#ffd700;letter-spacing:.14em;font-size:.82rem;margin:4px 0 10px}.logList{height:calc(100vh - 42px);overflow:auto;padding-right:4px}.logItem{font-size:.76rem;padding:8px 10px;border-radius:10px;background:rgba(255,255,255,.035);border:1px solid rgba(255,255,255,.06);margin-bottom:8px;color:rgba(255,255,255,.55);line-height:1.25}.logItem.latest{color:white;background:rgba(255,215,0,.08);border-color:rgba(255,215,0,.25)}.gameArea{height:100vh;max-width:1320px;width:100%;margin:0 auto;padding:8px 18px 10px;display:grid;grid-template-rows:70px 44px 1fr 82px 160px;gap:8px}.roundBanner{border-radius:18px;background:rgba(0,0,0,.35);border:1px solid rgba(255,215,0,.18);display:flex;align-items:center;justify-content:space-between;padding:10px 18px}.tinyTitle{font-size:.62rem;color:rgba(255,215,0,.58);font-weight:900;letter-spacing:.16em}.roundTitle{font-size:1.45rem;font-weight:900;color:#ffd700;line-height:1}.goal{text-align:center}.pill{font-size:.75rem;font-weight:900;border-radius:999px;padding:2px 12px;margin:0 3px}.pill.trio{color:#fbbf24;border:1px solid rgba(251,191,36,.5);background:rgba(251,191,36,.12)}.pill.seq{color:#60a5fa;border:1px solid rgba(96,165,250,.5);background:rgba(96,165,250,.12)}.goal small{color:rgba(255,255,255,.4)}.roundCards{display:flex;align-items:baseline;gap:4px;background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.24);border-radius:14px;padding:7px 14px;color:#ffd700}.roundCards strong{font-size:1.6rem}.topBar{display:flex;align-items:center;gap:12px}.topBar h1{margin:0;color:#ffd700;letter-spacing:.14em;font-size:1.55rem}.status{font-size:.75rem;font-weight:900;padding:6px 14px;border-radius:999px;background:rgba(0,0,0,.34);color:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.08)}.status.my{color:#4ade80;border-color:rgba(74,222,128,.35)}.roomActions{margin-left:auto;display:flex;align-items:center;gap:8px}.blue,.gold{border-radius:12px;font-weight:900;padding:8px 12px}.blue{color:white;background:linear-gradient(135deg,#1e3a5f,#2563eb);border:1px solid rgba(96,165,250,.5)}.gold{color:#1a1100;background:linear-gradient(135deg,#b8860b,#ffd700);border:2px solid #ffd700}.gold.full{width:100%;margin-top:12px}.toastError{position:fixed;top:18px;left:50%;transform:translateX(-50%);z-index:30;background:#b91c1c;color:white;border:1px solid #f87171;border-radius:14px;padding:12px 18px;font-weight:900}.table{position:relative;min-height:0}.botArea{position:absolute;display:flex;align-items:center;gap:10px}.botArea.top{top:4px;left:50%;transform:translateX(-50%);flex-direction:row}.botArea.left{left:0;top:50%;transform:translateY(-50%);flex-direction:row}.botArea.right{right:0;top:50%;transform:translateY(-50%);flex-direction:row}.botPlayer{display:flex;align-items:center;gap:8px;border-radius:18px;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.05);padding:10px}.botPlayer.active{border-color:rgba(74,222,128,.4);box-shadow:0 0 18px rgba(74,222,128,.12)}.botPlayer.vertical{flex-direction:column}.botPlayer.horizontal{flex-direction:row}.botName{font-weight:900;background:rgba(0,0,0,.55);border-radius:999px;padding:4px 10px;font-size:.85rem}.turnBadge,.dropBadge{font-weight:900;font-size:.62rem;border-radius:999px;padding:2px 7px}.turnBadge{color:#4ade80;border:1px solid rgba(74,222,128,.4);background:rgba(74,222,128,.12)}.turnBadge.inline{margin-left:8px}.dropBadge{color:#34d399;border:1px solid rgba(52,211,153,.35);background:rgba(52,211,153,.12)}.cardBackStack{display:flex}.cardBackStack.vertical{flex-direction:column}.cardBackStack.horizontal{flex-direction:row}.cardBackStack.vertical .overlap{margin-top:-27px}.cardBackStack.vertical .overlap:first-child{margin-top:0}.cardBackStack.horizontal .overlap{margin-left:-22px}.cardBackStack.horizontal .overlap:first-child{margin-left:0}.cardCount{font-size:.75rem;font-weight:900;background:#0b0b05;color:#ffd700;border:1px solid rgba(255,215,0,.3);border-radius:999px;padding:4px 9px}.emptyBack{width:42px;height:58px;border:2px dashed rgba(255,255,255,.1);border-radius:12px;display:grid;place-items:center;color:rgba(255,255,255,.2)}.centerPiles{position:absolute;left:50%;top:54%;transform:translate(-50%,-50%);text-align:center}.phaseHint{display:inline-block;color:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.18);border-radius:10px;padding:5px 14px;font-weight:900;font-size:.78rem}.phaseHint.draw{color:#93c5fd;border-color:rgba(96,165,250,.35);background:rgba(59,130,246,.1)}.phaseHint.discard{color:#fca5a5;border-color:rgba(248,113,113,.25);background:rgba(239,68,68,.08)}.centerPiles small{display:block;color:rgba(255,255,255,.25);margin:8px 0}.piles{display:flex;gap:38px;align-items:flex-start;justify-content:center}.pile{display:flex;flex-direction:column;align-items:center;gap:7px;color:rgba(255,255,255,.3);font-size:.7rem;letter-spacing:.08em}.pile.clickable{color:#4ade80}.pile.clickable .playing-card{box-shadow:0 0 18px rgba(74,222,128,.45)}.deckWithCount{position:relative}.deckWithCount span{position:absolute;right:-8px;bottom:-4px;background:#ffd700;color:#1a1100;border-radius:999px;font-size:.62rem;font-weight:900;padding:2px 4px}.playing-card{width:64px;height:96px;border-radius:12px;background:white;display:flex;flex-direction:column;justify-content:space-between;padding:8px;font-weight:900;box-shadow:0 6px 16px rgba(0,0,0,.28);user-select:none;transition:.12s;flex-shrink:0;color:#111827}.playing-card.small{width:44px;height:62px;padding:4px;border-radius:8px;font-size:.78rem}.playing-card.clickable:hover{transform:translateY(-3px)}.playing-card.selected{transform:translateY(-12px);outline:3px solid #facc15;box-shadow:0 0 20px rgba(250,204,21,.4)}.playing-card.back{background:linear-gradient(135deg,#1e3a5f,#2563eb,#1e3a5f);border:2px solid #3b82f6;color:rgba(255,255,255,.6);align-items:center;justify-content:center}.back-inner{width:70%;height:70%;border:1.5px solid rgba(255,255,255,.22);border-radius:8px;display:grid;place-items:center}.playing-card.empty{align-items:center;justify-content:center;background:rgba(0,0,0,.16);border:2px dashed rgba(255,255,255,.12);color:rgba(255,255,255,.25)}.playing-card.joker{background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);border:2px solid #ffd700;color:#ffd700;text-align:center;align-items:center;justify-content:center}.joker-icon{font-size:1.55rem}.joker-label{font-size:.65rem;letter-spacing:.08em}.corner{line-height:1.05}.red{color:#dc2626}.black{color:#111827}.rotate{transform:rotate(180deg);align-self:flex-end}.compactMelds{border-radius:14px;background:rgba(5,150,105,.08);border:1px solid rgba(52,211,153,.22);padding:8px;display:flex;gap:9px;align-items:flex-start;overflow:visible}.compactMelds.horizontal{width:100%;min-height:72px}.compactMelds.vertical{flex-direction:column;min-width:106px}.compactOwner{color:#34d399;font-weight:900;font-size:.82rem;white-space:nowrap}.compactGroups{display:flex;gap:12px;flex-wrap:wrap}.compactMelds.vertical .compactGroups{flex-direction:row}.compactLabel{font-size:.75rem;font-weight:900;text-align:center}.compactLabel.trio{color:#fbbf24}.compactLabel.seq{color:#60a5fa}.compactCards{display:flex;align-items:center}.compactCards.horizontal{flex-direction:row;gap:4px}.compactCards.vertical{flex-direction:column}.compactCards.vertical .meldCardWrap{margin-top:-22px}.compactCards.vertical .meldCardWrap:first-child{margin-top:0}.playerMeldRow{min-height:78px;overflow:visible}.handPanel{height:160px;border-radius:18px;background:rgba(0,0,0,.36);border:1px solid rgba(74,222,128,.23);padding:10px 16px;overflow:visible}.handHeader{display:flex;justify-content:space-between;align-items:center;font-weight:900;color:#4ade80;font-size:.78rem;letter-spacing:.08em}.greenDot{display:inline-block;width:10px;height:10px;border-radius:50%;background:#4ade80;box-shadow:0 0 10px #4ade80;margin-right:8px}.handActions{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.35);letter-spacing:0}.selBadge{color:#34d399;border:1px solid rgba(52,211,153,.35);background:rgba(52,211,153,.12);border-radius:999px;padding:3px 8px}.handCards{height:104px;display:flex;gap:8px;align-items:end;justify-content:center;overflow:visible}.modalOverlay{position:fixed;inset:0;background:rgba(0,0,0,.74);display:grid;place-items:center;z-index:25}.roundModal{width:340px;border-radius:26px;padding:24px;background:linear-gradient(135deg,#0f2017,#0a3d22);border:1px solid rgba(255,215,0,.28);box-shadow:0 0 40px rgba(0,0,0,.7)}.modalSub{font-size:.68rem;letter-spacing:.14em;font-weight:900;color:rgba(255,215,0,.5);text-align:center}.modalTitle{font-size:1.25rem;font-weight:900;color:#ffd700;text-align:center;margin:8px 0 14px}.scoreRow{display:flex;justify-content:space-between;align-items:center;border-radius:12px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);padding:8px 10px;margin-bottom:8px}.scoreRow strong{color:#fbbf24}.lobby{min-height:100vh;padding:36px;background:radial-gradient(ellipse at 50% 40%,#185c38 0%,#0b3d23 58%,#061910 100%)}.lobby h1{color:#ffd700;letter-spacing:.14em}.ok{color:#4ade80;font-weight:900}.bad,.error{color:#f87171;font-weight:900}.lobbyBox{max-width:420px;background:rgba(0,0,0,.35);padding:18px;border-radius:18px}.lobbyBox input{width:100%;padding:11px;border-radius:10px;margin-bottom:10px}.divider{height:12px}@media(max-width:900px){.appShell{grid-template-columns:1fr}.roundLog{display:none}.gameArea{padding:6px;grid-template-rows:58px 40px 1fr 72px 142px}.roomActions button{padding:6px 8px}.playing-card{width:52px;height:78px}.playing-card.small{width:34px;height:48px}.topBar h1{font-size:1rem}.roundTitle{font-size:1.1rem}.opponentWrap.left,.botArea.left{left:4px}.opponentWrap.right,.botArea.right{right:4px}.handPanel{height:142px}}
+
+.playing-card[draggable="true"] { cursor: grab; }
+.playing-card.dragOver { transform: translateY(-8px); box-shadow: 0 0 16px rgba(96,165,250,.55); }
+.compactGroup.groupDragOver,
+.compactGroup:hover {
+  border-color: rgba(251,191,36,.75) !important;
+  background: rgba(251,191,36,.08);
+}
+.contraModal{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:9999;padding:18px 22px;border-radius:18px;background:linear-gradient(135deg,rgba(120,53,15,.97),rgba(180,83,9,.94));border:2px solid rgba(251,191,36,.7);box-shadow:0 0 34px rgba(255,180,50,.28),0 10px 34px rgba(0,0,0,.55);text-align:center;min-width:280px;backdrop-filter:blur(6px)}.contraTitle{font-weight:900;color:#fbbf24;letter-spacing:.08em}.contraText{font-size:.85rem;color:rgba(255,255,255,.82);margin:5px 0 10px}.contraActions{display:flex;gap:8px;justify-content:center}
+.netStatus{font-size:.68rem;font-weight:900;border-radius:999px;padding:5px 9px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.25);text-transform:uppercase;letter-spacing:.08em}.netStatus.ok{color:#4ade80;border-color:rgba(74,222,128,.35)}.netStatus.bad{color:#f87171;border-color:rgba(248,113,113,.35)}.roomActions{flex-wrap:wrap}.handActions .blue{padding:6px 9px}.handActions .gold{padding:6px 9px}
+@media(max-width:900px){.handActions{gap:5px;flex-wrap:wrap;justify-content:flex-end}.handActions .blue,.handActions .gold{padding:5px 7px;font-size:.7rem}.netStatus{display:none}.gameArea{grid-template-rows:58px 46px 1fr 72px 150px}.handPanel{height:150px}.handCards{justify-content:flex-start;overflow-x:auto;padding-bottom:10px}}
+
+/* Phase 6 parity additions */
+.scoreboardPanel{
+  position:absolute;
+  right:24px;
+  top:120px;
+  z-index:18;
+  width:min(560px, calc(100vw - 300px));
+  max-height:360px;
+  overflow:auto;
+  border-radius:18px;
+  background:rgba(0,0,0,.72);
+  border:1px solid rgba(255,215,0,.22);
+  box-shadow:0 18px 50px rgba(0,0,0,.45);
+}
+.scoreboardHeader{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.08);color:#ffd700;font-size:.78rem;letter-spacing:.1em}.miniBtn{border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.06);color:rgba(255,255,255,.75);border-radius:9px;padding:4px 8px;font-weight:800}.scoreboardTable{width:100%;border-collapse:collapse;font-size:.78rem}.scoreboardTable th,.scoreboardTable td{padding:7px 8px;text-align:center;border-bottom:1px solid rgba(255,255,255,.055)}.scoreboardTable th:first-child,.scoreboardTable td:first-child{text-align:left;color:#ffd700;font-weight:900}.scoreboardTable th{color:rgba(255,255,255,.55);font-size:.68rem;text-transform:uppercase}.scoreboardTable tr.current{background:rgba(255,215,0,.08)}.scoreboardTable .totalRow{background:rgba(52,211,153,.07);font-weight:900}.contraPenalty{display:inline-block;margin:2px 0 10px;padding:3px 8px;border-radius:999px;font-size:.72rem;font-weight:900;letter-spacing:.04em}.contraPenalty.penalty{color:#fbbf24;background:rgba(251,191,36,.14);border:1px solid rgba(251,191,36,.38)}.contraPenalty.free{color:#4ade80;background:rgba(74,222,128,.12);border:1px solid rgba(74,222,128,.35)}.selBadge.warn{color:#fbbf24;border-color:rgba(251,191,36,.38);background:rgba(251,191,36,.12)}
+@media(max-width:900px){.scoreboardPanel{left:8px;right:8px;top:100px;width:auto;max-height:300px}.scoreboardTable{font-size:.7rem}}
+
+/* Phase 7 mobile/touch support */
+.playing-card,
+.touchCardWrap,
+.pile,
+.compactGroup,
+button {
+  touch-action: manipulation;
+}
+.handCards {
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x proximity;
+}
+.touchCardWrap {
+  display: flex;
+  flex-shrink: 0;
+  scroll-snap-align: center;
+}
+body.touch-dragging {
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+body.touch-dragging .playing-card {
+  pointer-events: none;
+}
+.touchGhost {
+  position: fixed;
+  transform: translate(-50%, -115%);
+  z-index: 10000;
+  pointer-events: none;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(30,58,95,.96), rgba(37,99,235,.96));
+  color: white;
+  border: 1px solid rgba(147,197,253,.85);
+  box-shadow: 0 12px 34px rgba(0,0,0,.45), 0 0 20px rgba(96,165,250,.35);
+  font-weight: 900;
+  font-size: .8rem;
+  letter-spacing: .04em;
+}
+@media (pointer: coarse) {
+  button { min-height: 40px; }
+  .blue,.gold { padding: 10px 13px; }
+  .playing-card.clickable:hover { transform: none; }
+  .playing-card.selected { transform: translateY(-8px); }
+  .compactGroup { padding: 6px; }
+  .pile { min-width: 76px; min-height: 104px; }
+}
+@media (max-width: 900px) {
+  body { overflow: hidden; }
+  .appShell { height: 100dvh; width: 100vw; }
+  .gameArea {
+    height: 100dvh;
+    padding: 6px 8px 8px;
+    grid-template-rows: 54px 78px 1fr 68px 168px;
+    gap: 6px;
+  }
+  .topBar { align-items: flex-start; flex-wrap: wrap; gap: 6px; }
+  .topBar h1 { width: 100%; font-size: 1.1rem; }
+  .roomActions { margin-left: 0; gap: 5px; width: 100%; justify-content: flex-start; }
+  .roomActions .blue,.roomActions .gold { padding: 6px 8px; font-size: .68rem; border-radius: 10px; }
+  .table { min-height: 0; }
+  .centerPiles { top: 52%; }
+  .piles { gap: 20px; }
+  .handPanel { height: 168px; padding: 8px; }
+  .handHeader { gap: 6px; align-items: flex-start; }
+  .handActions { max-width: 70%; }
+  .handCards { height: 118px; overflow-x: auto; overflow-y: visible; justify-content: flex-start; gap: 7px; padding: 14px 8px 12px; }
+  .playing-card { width: 58px; height: 86px; padding: 7px; }
+  .playing-card.small { width: 38px; height: 54px; }
+  .botPlayer { padding: 7px; gap: 5px; }
+  .botName { font-size: .68rem; padding: 3px 7px; }
+  .cardCount { font-size: .64rem; padding: 3px 7px; }
+  .compactMelds.horizontal { min-height: 62px; overflow-x: auto; }
+  .playerMeldRow { min-height: 64px; overflow-x: auto; }
+  .contraModal { width: min(320px, calc(100vw - 28px)); }
+}
+@media (max-height: 620px) and (orientation: landscape) {
+  .gameArea { grid-template-rows: 46px 54px 1fr 52px 132px; }
+  .roundBanner { padding: 6px 12px; }
+  .roundTitle { font-size: 1rem; }
+  .topBar h1 { font-size: .95rem; }
+  .handPanel { height: 132px; }
+  .handCards { height: 90px; padding-top: 8px; }
+  .playing-card { width: 50px; height: 74px; padding: 6px; border-radius: 10px; }
+  .playing-card.small { width: 34px; height: 48px; }
+  .centerPiles { top: 52%; transform: translate(-50%,-50%) scale(.9); }
+  .botArea.left,.botArea.right { transform: translateY(-50%) scale(.86); }
+  .botArea.top { transform: translateX(-50%) scale(.86); }
+}
+
+/* Phase 7.1 mobile layout polish */
+@media (max-width: 1100px), (max-height: 760px) {
+  body { overflow: hidden; }
+  .appShell { grid-template-columns: 1fr !important; height: 100dvh; width: 100vw; }
+  .roundLog { display: none !important; }
+  .gameArea {
+    max-width: none !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    padding: 6px 8px 8px !important;
+    grid-template-rows: auto auto minmax(300px, 1fr) auto 178px !important;
+    gap: 6px !important;
+  }
+  .roundBanner { min-height: 58px; padding: 7px 12px !important; }
+  .roundTitle { font-size: 1.05rem !important; }
+  .roundCards { padding: 5px 10px !important; }
+  .roundCards strong { font-size: 1.4rem !important; }
+  .topBar {
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    grid-template-areas: "title status" "actions actions" !important;
+    gap: 6px !important;
+    align-items: center !important;
+    min-height: 78px;
+  }
+  .topBar h1 { grid-area: title; width: auto !important; font-size: 1.18rem !important; white-space: nowrap; }
+  .topBar > .status { grid-area: status; justify-self: end; padding: 5px 10px; font-size: .68rem; }
+  .roomActions {
+    grid-area: actions;
+    margin-left: 0 !important;
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap !important;
+    gap: 5px !important;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .roomActions .netStatus { display: none !important; }
+  .roomActions button:disabled { display: none !important; }
+  .roomActions .blue,
+  .roomActions .gold { flex: 0 0 auto; padding: 7px 9px !important; font-size: .72rem !important; border-radius: 10px !important; }
+  .table { min-height: 0; overflow: visible; }
+  .botArea.top { top: 0 !important; }
+  .botArea.left { left: 4px !important; }
+  .botArea.right { right: 4px !important; }
+  .centerPiles { top: 54% !important; }
+  .phaseHint { font-size: .72rem !important; padding: 4px 10px !important; }
+  .piles { gap: 22px !important; }
+  .playerMeldRow { min-height: 0 !important; max-height: 72px; overflow-x: auto; overflow-y: visible; }
+  .handPanel { height: 178px !important; padding: 8px 10px !important; overflow: hidden !important; }
+  .handHeader { align-items: flex-start !important; gap: 4px !important; }
+  .handActions { max-width: 72% !important; justify-content: flex-end !important; gap: 5px !important; }
+  .handActions span { font-size: .78rem; }
+  .handActions .blue,
+  .handActions .gold { padding: 7px 8px !important; font-size: .72rem !important; border-radius: 10px !important; }
+  .handCards {
+    height: 122px !important;
+    justify-content: flex-start !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding: 14px 8px 10px !important;
+    gap: 8px !important;
+  }
+  .playing-card { width: 58px !important; height: 86px !important; padding: 7px !important; border-radius: 11px !important; }
+  .playing-card.small { width: 38px !important; height: 54px !important; padding: 4px !important; }
+}
+
+@media (orientation: landscape) and (max-height: 760px) {
+  .gameArea {
+    grid-template-rows: auto auto minmax(230px, 1fr) 0px 150px !important;
+    gap: 4px !important;
+  }
+  .roundBanner { min-height: 46px; padding: 5px 10px !important; }
+  .tinyTitle { font-size: .54rem !important; }
+  .roundTitle { font-size: .95rem !important; }
+  .goal small { display: none; }
+  .topBar { min-height: 58px; grid-template-columns: auto auto 1fr !important; grid-template-areas: "title status actions" !important; }
+  .topBar h1 { font-size: 1rem !important; }
+  .roomActions { justify-content: flex-end; }
+  .botPlayer { padding: 6px !important; gap: 5px !important; }
+  .botName { font-size: .66rem !important; padding: 3px 7px !important; }
+  .cardCount { font-size: .62rem !important; padding: 3px 7px !important; }
+  .cardBackStack.vertical .overlap { margin-top: -30px !important; }
+  .cardBackStack.horizontal .overlap { margin-left: -27px !important; }
+  .centerPiles { top: 50% !important; transform: translate(-50%,-50%) scale(.86) !important; }
+  .botArea.left,
+  .botArea.right { transform: translateY(-50%) scale(.82) !important; }
+  .botArea.top { transform: translateX(-50%) scale(.82) !important; }
+  .playerMeldRow { display: none !important; }
+  .handPanel { height: 150px !important; }
+  .handCards { height: 98px !important; padding: 10px 8px 8px !important; }
+  .playing-card { width: 52px !important; height: 78px !important; padding: 6px !important; }
+}
+
+@media (max-width: 520px) and (orientation: portrait) {
+  .gameArea { grid-template-rows: auto auto minmax(420px, 1fr) auto 190px !important; }
+  .topBar { min-height: 92px; }
+  .roomActions .blue,
+  .roomActions .gold { padding: 8px 9px !important; font-size: .72rem !important; }
+  .centerPiles { top: 53% !important; }
+  .botArea.top { top: 8px !important; transform: translateX(-50%) scale(.9) !important; }
+  .botArea.left { transform: translateY(-50%) scale(.92) !important; }
+  .botArea.right { transform: translateY(-50%) scale(.92) !important; }
+  .handPanel { height: 190px !important; }
+  .handCards { height: 132px !important; }
+  .playing-card { width: 62px !important; height: 92px !important; }
+}
+
+/* Phase 7.2 dedicated mobile landscape table fix */
+@media (orientation: landscape) and (max-height: 620px) {
+  .gameArea {
+    grid-template-rows: 44px 42px minmax(210px, 1fr) 0 138px !important;
+    padding: 4px 8px 6px !important;
+    gap: 3px !important;
+  }
+
+  .roundBanner {
+    min-height: 42px !important;
+    padding: 4px 10px !important;
+    border-radius: 12px !important;
+  }
+  .roundTitle { font-size: .9rem !important; }
+  .roundCards { padding: 3px 9px !important; border-radius: 10px !important; }
+  .roundCards strong { font-size: 1.15rem !important; }
+  .pill { font-size: .58rem !important; padding: 1px 8px !important; }
+
+  .topBar {
+    min-height: 42px !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: 7px !important;
+  }
+  .topBar h1 {
+    width: auto !important;
+    flex: 0 0 auto !important;
+    font-size: .98rem !important;
+    letter-spacing: .12em !important;
+    white-space: nowrap !important;
+  }
+  .topBar > .status {
+    flex: 0 0 auto !important;
+    padding: 4px 9px !important;
+    font-size: .62rem !important;
+    justify-self: auto !important;
+  }
+  .roomActions {
+    flex: 1 1 auto !important;
+    width: auto !important;
+    margin-left: auto !important;
+    justify-content: flex-end !important;
+    overflow: hidden !important;
+    gap: 5px !important;
+    padding-bottom: 0 !important;
+  }
+  .roomActions .blue,
+  .roomActions .gold {
+    padding: 6px 8px !important;
+    font-size: .64rem !important;
+    min-height: 32px !important;
+    border-radius: 9px !important;
+  }
+
+  .table {
+    overflow: visible !important;
+  }
+  .botArea.top {
+    top: 8px !important;
+    left: 50% !important;
+    transform: translateX(-50%) scale(.72) !important;
+    z-index: 2 !important;
+  }
+  .botArea.left {
+    left: 2px !important;
+    top: 54% !important;
+    transform: translateY(-50%) scale(.74) !important;
+  }
+  .botArea.right {
+    right: 2px !important;
+    top: 54% !important;
+    transform: translateY(-50%) scale(.74) !important;
+  }
+  .botPlayer { padding: 5px !important; gap: 4px !important; border-radius: 12px !important; }
+  .botName { font-size: .6rem !important; padding: 2px 6px !important; }
+  .cardCount { font-size: .58rem !important; padding: 2px 6px !important; }
+  .cardBackStack.vertical .overlap { margin-top: -32px !important; }
+  .cardBackStack.horizontal .overlap { margin-left: -30px !important; }
+
+  .centerPiles {
+    top: 56% !important;
+    transform: translate(-50%,-50%) scale(.82) !important;
+    z-index: 1 !important;
+  }
+  .phaseHint { font-size: .66rem !important; padding: 3px 9px !important; }
+  .centerPiles small { margin: 4px 0 !important; }
+  .piles { gap: 20px !important; }
+
+  .handPanel {
+    height: 138px !important;
+    padding: 7px 9px !important;
+    border-radius: 14px !important;
+  }
+  .handHeader { font-size: .68rem !important; }
+  .handActions { gap: 5px !important; max-width: 78% !important; }
+  .handActions .blue,
+  .handActions .gold {
+    padding: 6px 8px !important;
+    min-height: 32px !important;
+    font-size: .68rem !important;
+  }
+  .handCards {
+    height: 96px !important;
+    padding: 8px 8px 6px !important;
+    gap: 7px !important;
+  }
+  .playing-card { width: 52px !important; height: 78px !important; padding: 6px !important; border-radius: 10px !important; }
+  .playing-card.small { width: 34px !important; height: 48px !important; }
+}
+
+/* Phase 7.3 landscape readability fix: make opponent cards/names readable again */
+@media (orientation: landscape) and (max-height: 620px) {
+  .gameArea {
+    grid-template-rows: 44px 42px minmax(230px, 1fr) 0 140px !important;
+  }
+
+  .botArea.top {
+    top: 12px !important;
+    transform: translateX(-50%) scale(.94) !important;
+  }
+
+  .botArea.left {
+    left: 8px !important;
+    top: 55% !important;
+    transform: translateY(-50%) scale(.92) !important;
+  }
+
+  .botArea.right {
+    right: 8px !important;
+    top: 55% !important;
+    transform: translateY(-50%) scale(.92) !important;
+  }
+
+  .botPlayer {
+    padding: 8px !important;
+    gap: 7px !important;
+    border-radius: 15px !important;
+  }
+
+  .botName {
+    font-size: .78rem !important;
+    padding: 3px 9px !important;
+  }
+
+  .cardCount {
+    font-size: .72rem !important;
+    padding: 3px 8px !important;
+  }
+
+  .turnBadge,
+  .dropBadge {
+    font-size: .58rem !important;
+    padding: 2px 6px !important;
+  }
+
+  .cardBackStack.vertical .overlap {
+    margin-top: -26px !important;
+  }
+
+  .cardBackStack.horizontal .overlap {
+    margin-left: -20px !important;
+  }
+
+  .botPlayer .playing-card.small,
+  .botPlayer .playing-card.back,
+  .botPlayer .emptyBack {
+    width: 42px !important;
+    height: 58px !important;
+  }
+
+  .botPlayer .back-inner {
+    width: 70% !important;
+    height: 70% !important;
+  }
+
+  .centerPiles {
+    top: 57% !important;
+    transform: translate(-50%,-50%) scale(.86) !important;
+  }
+}
+
+/* Phase 7.4 landscape opponent readability: keep names outside card stacks */
+@media (orientation: landscape) and (max-height: 620px) {
+  .botArea.top {
+    top: 70px !important;
+    transform: translateX(-50%) scale(.95) !important;
+  }
+
+  .botPlayer.horizontal {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 18px !important;
+    min-width: 300px !important;
+    justify-content: center !important;
+  }
+
+  .botPlayer.horizontal .botName {
+    flex: 0 0 auto !important;
+    position: relative !important;
+    z-index: 20 !important;
+    margin-right: 8px !important;
+    font-size: .95rem !important;
+    padding: 5px 12px !important;
+  }
+
+  .botPlayer.horizontal .cardBackStack {
+    flex: 0 0 auto !important;
+    margin-left: 4px !important;
+    position: relative !important;
+    z-index: 5 !important;
+  }
+
+  .botPlayer.horizontal .cardBackStack.horizontal .overlap {
+    margin-left: -14px !important;
+  }
+
+  .botPlayer.horizontal .cardCount {
+    flex: 0 0 auto !important;
+    margin-left: 8px !important;
+    font-size: .78rem !important;
+  }
+
+  .botArea.left,
+  .botArea.right {
+    top: 53% !important;
+    transform: translateY(-50%) scale(.88) !important;
+  }
+
+  .botPlayer.vertical {
+    display: grid !important;
+    grid-template-rows: auto auto auto auto !important;
+    justify-items: center !important;
+    align-items: center !important;
+    gap: 6px !important;
+    min-width: 82px !important;
+    padding: 8px 7px !important;
+  }
+
+  .botPlayer.vertical .botName {
+    position: relative !important;
+    z-index: 30 !important;
+    display: block !important;
+    font-size: .9rem !important;
+    padding: 5px 11px !important;
+    margin-bottom: 3px !important;
+    max-width: 78px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .botPlayer.vertical .cardBackStack {
+    position: relative !important;
+    z-index: 5 !important;
+  }
+
+  .botPlayer.vertical .cardBackStack.vertical .overlap {
+    margin-top: -25px !important;
+  }
+
+  .botPlayer.vertical .cardCount {
+    position: relative !important;
+    z-index: 30 !important;
+    font-size: .76rem !important;
+    margin-top: 3px !important;
+  }
+}
+
+/* Phase 7.5 dedicated mobile landscape board layout
+   Goal: readable opponent names/cards without overlapping the center piles. */
+@media (orientation: landscape) and (max-height: 620px) {
+  .gameArea {
+    grid-template-rows: 42px 40px minmax(260px, 1fr) 0 142px !important;
+    padding: 4px 8px 6px !important;
+    gap: 4px !important;
+  }
+
+  .roundBanner {
+    min-height: 42px !important;
+    padding: 4px 10px !important;
+  }
+
+  .topBar {
+    min-height: 40px !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  .topBar h1 {
+    font-size: 1.02rem !important;
+    width: auto !important;
+    flex: 0 0 auto !important;
+  }
+
+  .topBar > .status {
+    flex: 0 0 auto !important;
+    padding: 4px 10px !important;
+    font-size: .66rem !important;
+  }
+
+  .roomActions {
+    margin-left: auto !important;
+    width: auto !important;
+    flex: 0 1 auto !important;
+    overflow: hidden !important;
+    gap: 5px !important;
+  }
+
+  .roomActions .blue,
+  .roomActions .gold {
+    padding: 6px 9px !important;
+    font-size: .66rem !important;
+    min-height: 32px !important;
+  }
+
+  .table {
+    position: relative !important;
+    overflow: visible !important;
+    min-height: 260px !important;
+  }
+
+  .botArea.top {
+    top: 6px !important;
+    left: 50% !important;
+    transform: translateX(-50%) scale(.92) !important;
+    z-index: 6 !important;
+  }
+
+  .botPlayer.horizontal {
+    min-width: 350px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 18px !important;
+    padding: 8px 12px !important;
+    border-radius: 16px !important;
+  }
+
+  .botPlayer.horizontal .botName {
+    flex: 0 0 auto !important;
+    position: relative !important;
+    z-index: 30 !important;
+    margin: 0 12px 0 0 !important;
+    font-size: .95rem !important;
+    padding: 5px 12px !important;
+    max-width: 92px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .botPlayer.horizontal .cardBackStack {
+    flex: 0 0 auto !important;
+    position: relative !important;
+    z-index: 5 !important;
+    margin-left: 8px !important;
+  }
+
+  .botPlayer.horizontal .cardBackStack.horizontal .overlap {
+    margin-left: -13px !important;
+  }
+
+  .botPlayer.horizontal .cardCount {
+    flex: 0 0 auto !important;
+    position: relative !important;
+    z-index: 30 !important;
+    margin-left: 10px !important;
+    font-size: .78rem !important;
+  }
+
+  .botArea.left {
+    left: 8px !important;
+    top: 55% !important;
+    transform: translateY(-50%) scale(.9) !important;
+    z-index: 5 !important;
+  }
+
+  .botArea.right {
+    right: 8px !important;
+    top: 55% !important;
+    transform: translateY(-50%) scale(.9) !important;
+    z-index: 5 !important;
+  }
+
+  .botPlayer.vertical {
+    min-width: 84px !important;
+    padding: 8px 7px !important;
+    gap: 6px !important;
+    border-radius: 15px !important;
+  }
+
+  .botPlayer.vertical .botName {
+    font-size: .88rem !important;
+    padding: 5px 10px !important;
+    max-width: 80px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .botPlayer .playing-card.small,
+  .botPlayer .playing-card.back,
+  .botPlayer .emptyBack {
+    width: 42px !important;
+    height: 58px !important;
+  }
+
+  .botPlayer.vertical .cardBackStack.vertical .overlap {
+    margin-top: -26px !important;
+  }
+
+  .centerPiles {
+    top: 63% !important;
+    transform: translate(-50%, -50%) scale(.88) !important;
+    z-index: 2 !important;
+  }
+
+  .phaseHint {
+    font-size: .7rem !important;
+    padding: 4px 11px !important;
+  }
+
+  .piles {
+    gap: 26px !important;
+  }
+
+  .handPanel {
+    height: 142px !important;
+    padding: 7px 10px !important;
+    border-radius: 14px !important;
+  }
+
+  .handHeader {
+    font-size: .72rem !important;
+  }
+
+  .handActions {
+    max-width: 70% !important;
+    gap: 6px !important;
+  }
+
+  .handActions .blue,
+  .handActions .gold {
+    padding: 7px 9px !important;
+    font-size: .72rem !important;
+    min-height: 34px !important;
+  }
+
+  .handCards {
+    height: 100px !important;
+    padding: 9px 8px 7px !important;
+    gap: 8px !important;
+    overflow-x: auto !important;
+    justify-content: flex-start !important;
+  }
+
+  .handCards .playing-card {
+    width: 54px !important;
+    height: 80px !important;
+  }
+}
+
+
+/* Phase 9 end-game ranking polish */
+.rankingRows .scoreRow.champion{background:rgba(255,215,0,.12);border-color:rgba(255,215,0,.36)}
+.rankingRows .scoreRow.champion span,.rankingRows .scoreRow.champion strong{color:#ffd700}
+.modalTotals{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 2px;color:rgba(255,255,255,.48);font-size:.72rem;justify-content:center}
+.modalTotals span{border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.035);border-radius:999px;padding:3px 8px}
+.modalTotals b{color:#ffd700}
+.modalReady{margin:8px 0 2px;text-align:center;color:rgba(255,255,255,.7);font-size:.82rem;font-weight:900}
+.modalReady b{color:#ffd700}
