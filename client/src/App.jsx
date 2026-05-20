@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { socket } from "./socket";
+import { Analytics } from "@vercel/analytics/react";
 import "./style.css";
 
 const TURN_ORDER = ["seat1", "seat4", "seat3", "seat2"];
@@ -801,6 +802,7 @@ export default function App() {
           {touchGhost && <div className="touchGhost" style={{left:touchGhost.x, top:touchGhost.y}}>{touchGhost.count > 1 ? `${touchGhost.count} cartas` : "1 carta"}</div>}
           </section>
       </main>
+      <Analytics />
     </div>
   );
 }

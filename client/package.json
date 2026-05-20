@@ -5,13 +5,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "@vitejs/plugin-react": "latest",
-    "vite": "latest",
+    "lucide-react": "latest",
     "react": "latest",
     "react-dom": "latest",
     "socket.io-client": "latest",
-    "lucide-react": "latest"
+    "vite": "latest"
   },
-  "devDependencies": {},
   "type": "module"
 }
