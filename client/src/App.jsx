@@ -318,6 +318,26 @@ export default function App() {
   const [pendingAction, setPendingAction] = useState(false);
   const reconnectAttemptedRef = useRef(false);
 
+  // Mobile Safari/Chrome on iPhone report 100vh differently when the browser
+  // toolbar is visible. Store the real visual viewport height in a CSS variable
+  // so the table can fit above the bottom browser controls.
+  useEffect(() => {
+    const setViewportHeight = () => {
+      const height = window.visualViewport?.height || window.innerHeight;
+      document.documentElement.style.setProperty("--app-height", `${height}px`);
+      document.documentElement.style.setProperty("--app-width", `${window.visualViewport?.width || window.innerWidth}px`);
+    };
+    setViewportHeight();
+    window.addEventListener("resize", setViewportHeight);
+    window.visualViewport?.addEventListener("resize", setViewportHeight);
+    window.visualViewport?.addEventListener("scroll", setViewportHeight);
+    return () => {
+      window.removeEventListener("resize", setViewportHeight);
+      window.visualViewport?.removeEventListener("resize", setViewportHeight);
+      window.visualViewport?.removeEventListener("scroll", setViewportHeight);
+    };
+  }, []);
+
   useEffect(() => { globalStore.setItem("continental_name", name || ""); }, [name]);
   useEffect(() => { if (code) globalStore.setItem("continental_roomCode", code); }, [code]);
   useEffect(() => { if (seatId) seatStore.setItem("continental_seatId", seatId); }, [seatId]);
