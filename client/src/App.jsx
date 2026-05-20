@@ -318,6 +318,22 @@ export default function App() {
   const [pendingAction, setPendingAction] = useState(false);
   const reconnectAttemptedRef = useRef(false);
 
+  useEffect(() => {
+    const setAppHeight = () => {
+      const height = window.visualViewport?.height || window.innerHeight;
+      document.documentElement.style.setProperty("--app-height", `${height}px`);
+    };
+    setAppHeight();
+    window.addEventListener("resize", setAppHeight);
+    window.visualViewport?.addEventListener("resize", setAppHeight);
+    window.visualViewport?.addEventListener("scroll", setAppHeight);
+    return () => {
+      window.removeEventListener("resize", setAppHeight);
+      window.visualViewport?.removeEventListener("resize", setAppHeight);
+      window.visualViewport?.removeEventListener("scroll", setAppHeight);
+    };
+  }, []);
+
   useEffect(() => { globalStore.setItem("continental_name", name || ""); }, [name]);
   useEffect(() => { if (code) globalStore.setItem("continental_roomCode", code); }, [code]);
   useEffect(() => { if (seatId) seatStore.setItem("continental_seatId", seatId); }, [seatId]);
