@@ -1308,3 +1308,272 @@ html, body, #root {
   .handCards { height: 80px !important; }
   .handCards .playing-card { width: 52px !important; height: 76px !important; }
 }
+
+/* Phase 10.3 iPhone/real-phone landscape no-scroll fit
+   Keep the whole board inside the visible viewport in short landscape screens. */
+@media (orientation: landscape) and (max-height: 520px) {
+  html,
+  body,
+  #root {
+    width: 100% !important;
+    height: var(--app-height, 100dvh) !important;
+    min-height: var(--app-height, 100dvh) !important;
+    max-height: var(--app-height, 100dvh) !important;
+    overflow: hidden !important;
+    overscroll-behavior: none !important;
+  }
+
+  body {
+    position: fixed !important;
+    inset: 0 !important;
+  }
+
+  .appShell {
+    display: block !important;
+    width: 100vw !important;
+    height: var(--app-height, 100dvh) !important;
+    min-height: var(--app-height, 100dvh) !important;
+    max-height: var(--app-height, 100dvh) !important;
+    overflow: hidden !important;
+    padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom) 0 !important;
+  }
+
+  .roundLog { display: none !important; }
+
+  .gameArea {
+    width: 100vw !important;
+    max-width: none !important;
+    height: calc(var(--app-height, 100dvh) - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important;
+    min-height: 0 !important;
+    max-height: calc(var(--app-height, 100dvh) - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important;
+    margin: 0 !important;
+    padding: 4px 7px 6px !important;
+    display: grid !important;
+    grid-template-rows: 38px 38px minmax(132px, 1fr) 0 86px !important;
+    gap: 3px !important;
+    overflow: hidden !important;
+  }
+
+  .roundBanner {
+    height: 38px !important;
+    min-height: 0 !important;
+    padding: 3px 12px !important;
+    border-radius: 10px !important;
+  }
+  .tinyTitle { font-size: .44rem !important; letter-spacing: .12em !important; }
+  .roundTitle { font-size: .86rem !important; line-height: .9 !important; }
+  .pill { font-size: .52rem !important; padding: 1px 7px !important; }
+  .goal small { display: none !important; }
+  .roundCards { padding: 3px 8px !important; border-radius: 9px !important; }
+  .roundCards strong { font-size: 1.05rem !important; }
+  .roundCards span { font-size: .55rem !important; }
+
+  .topBar {
+    height: 38px !important;
+    min-height: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    overflow: hidden !important;
+  }
+  .topBar h1 {
+    flex: 0 1 auto !important;
+    min-width: 0 !important;
+    max-width: 36vw !important;
+    font-size: .95rem !important;
+    line-height: 1 !important;
+    letter-spacing: .11em !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+  .topBar > .status {
+    flex: 0 0 auto !important;
+    padding: 3px 9px !important;
+    font-size: .55rem !important;
+    white-space: nowrap !important;
+  }
+  .roomActions {
+    margin-left: auto !important;
+    min-width: 0 !important;
+    max-width: 56vw !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 5px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scrollbar-width: none !important;
+    padding-bottom: 1px !important;
+  }
+  .roomActions::-webkit-scrollbar { display: none !important; }
+  .roomActions .blue,
+  .roomActions .gold {
+    flex: 0 0 auto !important;
+    min-height: 28px !important;
+    max-height: 30px !important;
+    padding: 4px 8px !important;
+    border-radius: 8px !important;
+    font-size: .62rem !important;
+    line-height: 1 !important;
+    max-width: 116px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .table {
+    position: relative !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .botArea.top {
+    top: 0 !important;
+    left: 50% !important;
+    transform: translateX(-50%) scale(.58) !important;
+    transform-origin: top center !important;
+    z-index: 4 !important;
+  }
+  .botArea.left {
+    left: -8px !important;
+    top: 47% !important;
+    transform: translateY(-50%) scale(.50) !important;
+    transform-origin: left center !important;
+    z-index: 3 !important;
+  }
+  .botArea.right {
+    right: -8px !important;
+    top: 47% !important;
+    transform: translateY(-50%) scale(.50) !important;
+    transform-origin: right center !important;
+    z-index: 3 !important;
+  }
+  .botPlayer {
+    padding: 6px !important;
+    gap: 6px !important;
+    border-radius: 13px !important;
+  }
+  .botPlayer.horizontal { min-width: 235px !important; }
+  .botName { font-size: .82rem !important; padding: 4px 9px !important; }
+  .cardCount { font-size: .70rem !important; padding: 3px 7px !important; }
+  .botPlayer .playing-card.small,
+  .botPlayer .playing-card.back,
+  .botPlayer .emptyBack {
+    width: 38px !important;
+    height: 54px !important;
+  }
+  .cardBackStack.vertical .overlap { margin-top: -25px !important; }
+  .cardBackStack.horizontal .overlap { margin-left: -19px !important; }
+
+  .centerPiles {
+    left: 50% !important;
+    top: 59% !important;
+    transform: translate(-50%, -50%) scale(.53) !important;
+    transform-origin: center center !important;
+    width: 260px !important;
+    max-width: 50vw !important;
+    z-index: 2 !important;
+  }
+  .phaseHint {
+    max-width: 260px !important;
+    padding: 5px 9px !important;
+    border-radius: 9px !important;
+    font-size: .72rem !important;
+    line-height: 1.05 !important;
+    white-space: normal !important;
+  }
+  .centerPiles small { font-size: .68rem !important; margin: 4px 0 !important; }
+  .piles { gap: 24px !important; }
+  .centerPiles .playing-card {
+    width: 64px !important;
+    height: 92px !important;
+    border-radius: 11px !important;
+  }
+
+  .playerMeldRow { display: none !important; }
+
+  .handPanel {
+    height: 86px !important;
+    min-height: 0 !important;
+    padding: 5px 8px 6px !important;
+    border-radius: 11px !important;
+    overflow: hidden !important;
+  }
+  .handHeader {
+    height: 27px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    font-size: .66rem !important;
+    letter-spacing: .06em !important;
+  }
+  .greenDot { width: 7px !important; height: 7px !important; margin-right: 5px !important; }
+  .turnBadge.inline { margin-left: 5px !important; }
+  .handActions {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: 5px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scrollbar-width: none !important;
+  }
+  .handActions::-webkit-scrollbar { display: none !important; }
+  .handActions span { flex: 0 0 auto !important; font-size: .66rem !important; }
+  .handActions .blue,
+  .handActions .gold {
+    flex: 0 0 auto !important;
+    min-height: 28px !important;
+    padding: 4px 8px !important;
+    border-radius: 9px !important;
+    font-size: .62rem !important;
+    line-height: 1 !important;
+  }
+  .handCards {
+    height: 52px !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: flex-end !important;
+    justify-content: flex-start !important;
+    gap: 6px !important;
+    padding: 2px 5px 0 !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+  }
+  .handCards::-webkit-scrollbar { display: none !important; }
+  .handCards .playing-card {
+    width: 38px !important;
+    height: 50px !important;
+    padding: 4px !important;
+    border-radius: 8px !important;
+    font-size: .66rem !important;
+  }
+
+  .scoreboardPanel {
+    top: 46px !important;
+    left: 8px !important;
+    right: 8px !important;
+    width: auto !important;
+    max-height: calc(var(--app-height, 100dvh) - 62px) !important;
+  }
+
+  .contraModal {
+    position: fixed !important;
+    left: 10px !important;
+    right: 10px !important;
+    bottom: calc(env(safe-area-inset-bottom) + 8px) !important;
+    transform: none !important;
+    width: auto !important;
+    z-index: 1000 !important;
+  }
+}
