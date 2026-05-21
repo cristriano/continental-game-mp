@@ -2344,3 +2344,162 @@ button,
 .table::before{display:none !important;content:none !important;}
 .table{overflow:visible;}
 @media(max-width:900px){.table{overflow:visible;}}
+
+/* Phase 14 - iPhone portrait hand polish
+   The fanned-hand polish looked good on desktop, but real iPhone portrait
+   clipped the cards because the action buttons + hand row exceeded the hand
+   panel height. These overrides keep the compact hand, but make the mobile
+   hand panel use predictable rows and fully visible cards. */
+@media (max-width: 640px) and (orientation: portrait) {
+  .gameArea {
+    grid-template-rows: 64px 98px minmax(218px, 1fr) 0 172px !important;
+    gap: 4px !important;
+  }
+
+  .topBar {
+    height: 98px !important;
+    min-height: 0 !important;
+  }
+
+  .table {
+    min-height: 0 !important;
+  }
+
+  .botArea.top {
+    top: 0 !important;
+    transform: translateX(-50%) scale(.66) !important;
+  }
+  .botArea.left {
+    top: 44% !important;
+    transform: translateY(-50%) scale(.62) !important;
+  }
+  .botArea.right {
+    top: 44% !important;
+    transform: translateY(-50%) scale(.62) !important;
+  }
+  .centerPiles {
+    top: 61% !important;
+    transform: translate(-50%, -50%) scale(.66) !important;
+  }
+
+  .handPanel {
+    height: 172px !important;
+    min-height: 172px !important;
+    padding: 8px 9px 9px !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  .handHeader {
+    flex: 0 0 42px !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 8px !important;
+    font-size: .78rem !important;
+    overflow: hidden !important;
+  }
+
+  .handHeader > div:first-child {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+  }
+
+  .handActions {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: 5px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  .handActions::-webkit-scrollbar { display: none !important; }
+  .handActions span {
+    flex: 0 0 auto !important;
+    font-size: .72rem !important;
+  }
+  .handActions .blue,
+  .handActions .gold {
+    flex: 0 0 auto !important;
+    min-height: 34px !important;
+    padding: 6px 8px !important;
+    border-radius: 11px !important;
+    font-size: .70rem !important;
+    line-height: 1 !important;
+  }
+
+  .handCards {
+    flex: 1 1 auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: flex-end !important;
+    justify-content: flex-start !important;
+    gap: 0 !important;
+    padding: 6px 12px 2px 22px !important;
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+    scroll-snap-type: x proximity !important;
+    scroll-padding-inline: 18px !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-x: contain !important;
+  }
+  .handCards::-webkit-scrollbar { display: none !important; }
+
+  .touchCardWrap {
+    margin-left: -14px !important;
+    flex: 0 0 auto !important;
+    scroll-snap-align: center !important;
+  }
+  .touchCardWrap:first-child { margin-left: 0 !important; }
+  .touchCardWrap.isSelected { transform: translateY(-8px) !important; }
+  .touchCardWrap:active { transform: translateY(-10px) !important; }
+
+  .handCards .playing-card {
+    width: 58px !important;
+    height: 86px !important;
+    padding: 6px !important;
+    border-radius: 11px !important;
+    font-size: .86rem !important;
+  }
+}
+
+@media (max-width: 390px) and (orientation: portrait) {
+  .gameArea {
+    grid-template-rows: 58px 92px minmax(205px, 1fr) 0 164px !important;
+  }
+  .roundBanner { height: 58px !important; }
+  .topBar { height: 92px !important; }
+  .handPanel {
+    height: 164px !important;
+    min-height: 164px !important;
+  }
+  .handHeader {
+    flex-basis: 40px !important;
+    height: 40px !important;
+    min-height: 40px !important;
+  }
+  .handActions .blue,
+  .handActions .gold {
+    min-height: 32px !important;
+    padding: 5px 7px !important;
+    font-size: .66rem !important;
+  }
+  .handCards .playing-card {
+    width: 54px !important;
+    height: 80px !important;
+  }
+  .touchCardWrap { margin-left: -13px !important; }
+}
