@@ -330,8 +330,8 @@ export default function App() {
       const isLandscape = width > height;
       const isShort = height <= 520;
       if (isLandscape && isShort) {
-        const baseW = 900;
-        const baseH = 430;
+        const baseW = 820;
+        const baseH = 390;
         const scale = Math.min(width / baseW, height / baseH, 1);
         document.documentElement.style.setProperty("--landscape-scale", `${scale}`);
         document.documentElement.style.setProperty("--landscape-base-width", `${baseW}px`);
