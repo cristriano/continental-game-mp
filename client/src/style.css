@@ -2621,3 +2621,70 @@ button,
     height: 82px !important;
   }
 }
+
+/* Phase 16 - iPhone landscape full-card visibility
+   Final landscape-only hand override. The previous compact hand could still clip
+   the lower part of cards on real iPhone Safari/Chrome because the browser UI
+   reduces the visual viewport. Keep the panel compact, but give the card row
+   enough internal height and use slightly smaller cards. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .handPanel {
+    height: 132px !important;
+    min-height: 132px !important;
+    max-height: 132px !important;
+    padding: 7px 10px 10px !important;
+    overflow: visible !important;
+  }
+
+  .handHeader {
+    height: 30px !important;
+    min-height: 30px !important;
+    max-height: 30px !important;
+    overflow: visible !important;
+  }
+
+  .handActions .blue,
+  .handActions .gold {
+    min-height: 29px !important;
+    height: 29px !important;
+    max-height: 29px !important;
+    padding: 5px 8px !important;
+    font-size: .68rem !important;
+  }
+
+  .handCards {
+    height: 88px !important;
+    min-height: 88px !important;
+    max-height: 88px !important;
+    padding: 6px 14px 6px !important;
+    align-items: center !important;
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+  }
+
+  .touchCardWrap {
+    height: 76px !important;
+    min-height: 76px !important;
+    max-height: 76px !important;
+    align-items: center !important;
+    overflow: visible !important;
+    margin-left: -12px !important;
+  }
+
+  .touchCardWrap:first-child { margin-left: 0 !important; }
+
+  .handCards .playing-card,
+  .touchCardWrap .playing-card {
+    width: 49px !important;
+    min-width: 49px !important;
+    max-width: 49px !important;
+    height: 70px !important;
+    min-height: 70px !important;
+    max-height: 70px !important;
+    padding: 5px !important;
+    border-radius: 9px !important;
+    font-size: .70rem !important;
+  }
+
+  .touchCardWrap.isSelected { transform: translateY(-4px) !important; }
+}
