@@ -2239,23 +2239,6 @@ button,
 }
 
 /* Phase 13 - dynamic table + compact fanned hand */
-.table::before{
-  content:"";
-  position:absolute;
-  inset:10px 18px 4px;
-  border-radius:42px;
-  background:
-    radial-gradient(ellipse at 50% 45%, rgba(67,132,74,.22), rgba(7,45,27,.08) 58%, rgba(0,0,0,.18) 100%),
-    linear-gradient(180deg, rgba(255,255,255,.035), rgba(0,0,0,.08));
-  border:2px solid rgba(183,129,65,.36);
-  box-shadow:inset 0 0 0 10px rgba(91,49,24,.14), inset 0 0 50px rgba(0,0,0,.22), 0 16px 50px rgba(0,0,0,.14);
-  pointer-events:none;
-  z-index:0;
-}
-.table > *{position:relative;z-index:1;}
-.centerPiles{z-index:2;}
-.botArea{z-index:3;}
-
 .handPanel{
   background:linear-gradient(180deg, rgba(24,92,56,.42), rgba(2,23,14,.72));
   border:1px solid rgba(74,222,128,.28);
@@ -2335,7 +2318,6 @@ button,
 }
 
 @media(max-width:900px){
-  .table::before{inset:6px 4px 2px;border-radius:30px;box-shadow:inset 0 0 0 6px rgba(91,49,24,.10), inset 0 0 36px rgba(0,0,0,.20)}
   .handCards{padding-left:24px;padding-right:24px;overflow-x:auto !important;overflow-y:visible !important;justify-content:flex-start !important;}
   .touchCardWrap{margin-left:-15px;}
   .touchCardWrap.isDragOver{margin-left:-4px;margin-right:10px;}
@@ -2350,10 +2332,15 @@ button,
 }
 
 @media(max-height:500px) and (orientation:landscape){
-  .table::before{inset:4px 10px 2px;border-radius:28px;}
   .handCards{padding-left:20px;padding-right:20px;}
   .handCards .playing-card{width:56px !important;height:82px !important;}
   .touchCardWrap{margin-left:-18px;}
   .touchCardWrap.isSelected{transform:translateY(-10px);}
   .touchGhostCard .playing-card{width:62px !important;height:92px !important;}
 }
+
+
+/* Phase 13 safe rollback: keep compact hand/drag polish, but remove experimental table overlay. */
+.table::before{display:none !important;content:none !important;}
+.table{overflow:visible;}
+@media(max-width:900px){.table{overflow:visible;}}
