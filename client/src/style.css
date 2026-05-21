@@ -2503,3 +2503,121 @@ button,
   }
   .touchCardWrap { margin-left: -13px !important; }
 }
+
+/* Phase 15 - iPhone landscape hand/card correction
+   Keep the stable board, but stop the hand cards from being vertically clipped
+   in very short iPhone landscape viewports. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .handPanel {
+    height: 118px !important;
+    min-height: 118px !important;
+    max-height: 118px !important;
+    padding: 6px 10px 8px !important;
+    overflow: hidden !important;
+  }
+
+  .handHeader {
+    height: 32px !important;
+    min-height: 32px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    overflow: hidden !important;
+  }
+
+  .handHeader > div:first-child {
+    flex: 0 0 auto !important;
+    white-space: nowrap !important;
+    font-size: .78rem !important;
+  }
+
+  .handActions {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 6px !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+  }
+
+  .handActions::-webkit-scrollbar { display: none !important; }
+
+  .handActions span {
+    flex: 0 0 auto !important;
+    font-size: .72rem !important;
+  }
+
+  .handActions .blue,
+  .handActions .gold {
+    flex: 0 0 auto !important;
+    min-height: 30px !important;
+    height: 30px !important;
+    max-height: 30px !important;
+    padding: 5px 9px !important;
+    font-size: .70rem !important;
+    line-height: 1 !important;
+    border-radius: 10px !important;
+  }
+
+  .handCards {
+    height: 78px !important;
+    min-height: 78px !important;
+    max-height: 78px !important;
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    gap: 0 !important;
+    padding: 4px 14px 2px !important;
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+    scroll-snap-type: x proximity !important;
+  }
+
+  .handCards::-webkit-scrollbar { display: none !important; }
+
+  .touchCardWrap {
+    flex: 0 0 auto !important;
+    margin-left: -14px !important;
+    height: 72px !important;
+    max-height: 72px !important;
+    display: flex !important;
+    align-items: center !important;
+    overflow: visible !important;
+    scroll-snap-align: center !important;
+  }
+
+  .touchCardWrap:first-child { margin-left: 0 !important; }
+  .touchCardWrap.isSelected { transform: translateY(-6px) !important; }
+  .touchCardWrap.isDragOver { margin-left: -4px !important; margin-right: 8px !important; }
+
+  .handCards .playing-card,
+  .touchCardWrap .playing-card {
+    width: 52px !important;
+    min-width: 52px !important;
+    max-width: 52px !important;
+    height: 72px !important;
+    min-height: 72px !important;
+    max-height: 72px !important;
+    padding: 5px !important;
+    border-radius: 9px !important;
+    font-size: .72rem !important;
+    transform: none !important;
+  }
+
+  .touchCardWrap.isSelected .playing-card {
+    outline: 2px solid #facc15 !important;
+  }
+
+  .touchGhostCard .playing-card {
+    width: 58px !important;
+    height: 82px !important;
+  }
+}
