@@ -2688,3 +2688,127 @@ button,
 
   .touchCardWrap.isSelected { transform: translateY(-4px) !important; }
 }
+
+/* Phase 17 - real iPhone landscape full-hand fix
+   The previous rule made the hand cards smaller, but the grid row was still
+   only 104px in short landscape, so Safari clipped the bottom of the cards.
+   This final override gives the hand its own real row and reduces the table
+   row just enough to keep the whole board inside the scaled landscape canvas. */
+@media (orientation: landscape) and (max-height: 520px) {
+  .gameArea {
+    grid-template-rows: 42px 40px 172px 0 136px !important;
+    gap: 5px !important;
+    padding: 5px 10px 6px !important;
+    overflow: hidden !important;
+  }
+
+  .roundBanner {
+    height: 42px !important;
+    min-height: 42px !important;
+    max-height: 42px !important;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+  }
+
+  .topBar {
+    height: 40px !important;
+    min-height: 40px !important;
+    max-height: 40px !important;
+  }
+
+  .table {
+    height: 172px !important;
+    min-height: 172px !important;
+    max-height: 172px !important;
+  }
+
+  .botArea.top {
+    top: 0 !important;
+    transform: translateX(-50%) scale(.68) !important;
+  }
+
+  .botArea.left,
+  .botArea.right {
+    top: 55% !important;
+    transform: translateY(-50%) scale(.54) !important;
+  }
+
+  .centerPiles {
+    top: 66% !important;
+    transform: translate(-50%, -50%) scale(.62) !important;
+  }
+
+  .handPanel {
+    height: 136px !important;
+    min-height: 136px !important;
+    max-height: 136px !important;
+    padding: 7px 10px 9px !important;
+    overflow: visible !important;
+    align-self: stretch !important;
+  }
+
+  .handHeader {
+    height: 32px !important;
+    min-height: 32px !important;
+    max-height: 32px !important;
+    overflow: visible !important;
+    align-items: center !important;
+  }
+
+  .handActions {
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .handActions .blue,
+  .handActions .gold {
+    height: 30px !important;
+    min-height: 30px !important;
+    max-height: 30px !important;
+    padding: 5px 8px !important;
+    font-size: .68rem !important;
+  }
+
+  .handCards {
+    height: 92px !important;
+    min-height: 92px !important;
+    max-height: 92px !important;
+    padding: 7px 14px 8px !important;
+    align-items: flex-end !important;
+    overflow-x: auto !important;
+    overflow-y: visible !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: none !important;
+  }
+
+  .touchCardWrap {
+    height: 78px !important;
+    min-height: 78px !important;
+    max-height: 78px !important;
+    align-items: flex-end !important;
+    overflow: visible !important;
+    flex: 0 0 auto !important;
+    margin-left: -10px !important;
+  }
+
+  .touchCardWrap:first-child { margin-left: 0 !important; }
+
+  .handCards .playing-card,
+  .touchCardWrap .playing-card {
+    width: 50px !important;
+    min-width: 50px !important;
+    max-width: 50px !important;
+    height: 76px !important;
+    min-height: 76px !important;
+    max-height: 76px !important;
+    padding: 5px !important;
+    border-radius: 9px !important;
+    font-size: .70rem !important;
+    flex: 0 0 auto !important;
+  }
+
+  .touchCardWrap.isSelected {
+    transform: translateY(-3px) !important;
+  }
+}
