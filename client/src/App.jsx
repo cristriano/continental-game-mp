@@ -685,7 +685,7 @@ export default function App() {
       e.preventDefault();
       d.x = e.clientX;
       d.y = e.clientY;
-      setTouchGhost({ x:e.clientX, y:e.clientY, count:d.ids.length });
+      setTouchGhost({ x:e.clientX, y:e.clientY, count:d.ids.length, cards:(me?.cards || []).filter(c => d.ids.includes(c.id)).slice(0,3) });
 
       const el = document.elementFromPoint(e.clientX, e.clientY);
       const handEl = el?.closest?.("[data-hand-idx]");
@@ -830,12 +830,12 @@ export default function App() {
           </div>
           <div className="handCards">
             {me?.cards?.map((card, idx) => (
-              <div key={card.id} className="touchCardWrap" data-hand-idx={idx} onPointerDown={e=>startTouchCard(e, card)}>
+              <div key={card.id} className={`touchCardWrap ${selected.has(card.id) ? "isSelected" : ""} ${dragOverIdx===idx ? "isDragOver" : ""}`} style={{"--hand-index": idx}} data-hand-idx={idx} onPointerDown={e=>startTouchCard(e, card)}>
                 <PlayingCard card={card} selected={selected.has(card.id)} clickable draggable onClick={()=>{ if (suppressNextClickRef.current) { suppressNextClickRef.current=false; return; } toggleCard(card.id); }} onDoubleClick={()=>canDiscard && !actionBlocked && action("discard", { cardId: card.id })} onDragStart={e=>onCardDragStart(e, card, idx)} onDragOver={e=>onCardDragOver(e, idx)} onDrop={e=>onCardDrop(e, idx)} onDragEnd={onDragEnd} dragOver={dragOverIdx===idx} />
               </div>
             ))}
           </div>
-          {touchGhost && <div className="touchGhost" style={{left:touchGhost.x, top:touchGhost.y}}>{touchGhost.count > 1 ? `${touchGhost.count} cartas` : "1 carta"}</div>}
+          {touchGhost && <div className="touchGhost touchGhostCards" style={{left:touchGhost.x, top:touchGhost.y}}>{touchGhost.cards?.length ? touchGhost.cards.map((c, i) => <div className="touchGhostCard" style={{"--ghost-index": i}} key={c.id || i}><PlayingCard card={c} /></div>) : (touchGhost.count > 1 ? `${touchGhost.count} cartas` : "1 carta")}</div>}
           </section>
       </main>
     </div>
