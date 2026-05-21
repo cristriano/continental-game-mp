@@ -319,18 +319,39 @@ export default function App() {
   const reconnectAttemptedRef = useRef(false);
 
   useEffect(() => {
-    const setAppHeight = () => {
+    const setViewportVars = () => {
+      const width = window.visualViewport?.width || window.innerWidth;
       const height = window.visualViewport?.height || window.innerHeight;
       document.documentElement.style.setProperty("--app-height", `${height}px`);
+      document.documentElement.style.setProperty("--app-width", `${width}px`);
+
+      // Real iPhone landscape has a very small visual viewport because of the browser UI.
+      // Scale the whole board only in short landscape screens so it fits without scrolling.
+      const isLandscape = width > height;
+      const isShort = height <= 520;
+      if (isLandscape && isShort) {
+        const baseW = 900;
+        const baseH = 430;
+        const scale = Math.min(width / baseW, height / baseH, 1);
+        document.documentElement.style.setProperty("--landscape-scale", `${scale}`);
+        document.documentElement.style.setProperty("--landscape-base-width", `${baseW}px`);
+        document.documentElement.style.setProperty("--landscape-base-height", `${baseH}px`);
+      } else {
+        document.documentElement.style.removeProperty("--landscape-scale");
+        document.documentElement.style.removeProperty("--landscape-base-width");
+        document.documentElement.style.removeProperty("--landscape-base-height");
+      }
     };
-    setAppHeight();
-    window.addEventListener("resize", setAppHeight);
-    window.visualViewport?.addEventListener("resize", setAppHeight);
-    window.visualViewport?.addEventListener("scroll", setAppHeight);
+    setViewportVars();
+    window.addEventListener("resize", setViewportVars);
+    window.addEventListener("orientationchange", setViewportVars);
+    window.visualViewport?.addEventListener("resize", setViewportVars);
+    window.visualViewport?.addEventListener("scroll", setViewportVars);
     return () => {
-      window.removeEventListener("resize", setAppHeight);
-      window.visualViewport?.removeEventListener("resize", setAppHeight);
-      window.visualViewport?.removeEventListener("scroll", setAppHeight);
+      window.removeEventListener("resize", setViewportVars);
+      window.removeEventListener("orientationchange", setViewportVars);
+      window.visualViewport?.removeEventListener("resize", setViewportVars);
+      window.visualViewport?.removeEventListener("scroll", setViewportVars);
     };
   }, []);
 
