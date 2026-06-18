@@ -312,7 +312,7 @@ export default function App() {
   const dragRef = useRef({ ids: [], source: null });
   const [dragOverIdx, setDragOverIdx] = useState(null);
   const [dropTarget, setDropTarget] = useState(null);
-  const touchDragRef = useRef({ active:false, dragging:false, ids:[], startX:0, startY:0, x:0, y:0 });
+  const touchDragRef = useRef({ active:false, ready:false, dragging:false, ids:[], startX:0, startY:0, x:0, y:0, timer:null });
   const [touchGhost, setTouchGhost] = useState(null);
   const suppressNextClickRef = useRef(false);
   const [pendingAction, setPendingAction] = useState(false);
@@ -659,12 +659,18 @@ export default function App() {
     if (e.pointerType === "mouse") return;
     if (!me?.cards?.some(c => c.id === card.id)) return;
     const ids = selected.has(card.id) ? [...selected] : [card.id];
-    touchDragRef.current = { active:true, dragging:false, ids, startX:e.clientX, startY:e.clientY, x:e.clientX, y:e.clientY };
+    clearTimeout(touchDragRef.current.timer);
+    const nextDrag = { active:true, ready:false, dragging:false, ids, startX:e.clientX, startY:e.clientY, x:e.clientX, y:e.clientY, timer:null };
+    nextDrag.timer = setTimeout(() => {
+      touchDragRef.current.ready = true;
+    }, 170);
+    touchDragRef.current = nextDrag;
   }
 
   useEffect(() => {
     function cleanupTouchDrag() {
-      touchDragRef.current = { active:false, dragging:false, ids:[], startX:0, startY:0, x:0, y:0 };
+      clearTimeout(touchDragRef.current.timer);
+      touchDragRef.current = { active:false, ready:false, dragging:false, ids:[], startX:0, startY:0, x:0, y:0, timer:null };
       setTouchGhost(null);
       setDragOverIdx(null);
       setDropTarget(null);
@@ -676,6 +682,12 @@ export default function App() {
       if (!d.active) return;
       const dx = e.clientX - d.startX;
       const dy = e.clientY - d.startY;
+      if (!d.dragging && !d.ready) {
+        if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy) * 1.25) {
+          cleanupTouchDrag();
+        }
+        return;
+      }
       if (!d.dragging && Math.hypot(dx, dy) > 9) {
         d.dragging = true;
         suppressNextClickRef.current = true;
@@ -828,12 +840,23 @@ export default function App() {
               <button className="gold" disabled={!canDiscard || selected.size < 3 || me?.hasDropped || actionBlocked} onClick={meldSelected}>Abater</button>
             </div>
           </div>
-          <div className="handCards">
-            {me?.cards?.map((card, idx) => (
-              <div key={card.id} className={`touchCardWrap ${selected.has(card.id) ? "isSelected" : ""} ${dragOverIdx===idx ? "isDragOver" : ""}`} style={{"--hand-index": idx}} data-hand-idx={idx} onPointerDown={e=>startTouchCard(e, card)}>
-                <PlayingCard card={card} selected={selected.has(card.id)} clickable draggable onClick={()=>{ if (suppressNextClickRef.current) { suppressNextClickRef.current=false; return; } toggleCard(card.id); }} onDoubleClick={()=>canDiscard && !actionBlocked && action("discard", { cardId: card.id })} onDragStart={e=>onCardDragStart(e, card, idx)} onDragOver={e=>onCardDragOver(e, idx)} onDrop={e=>onCardDrop(e, idx)} onDragEnd={onDragEnd} dragOver={dragOverIdx===idx} />
-              </div>
-            ))}
+          <div className="handCards" style={{
+            "--hand-count": me?.cards?.length || 1,
+            "--mobile-card-width": `${Math.max(40, Math.min(58, 34 + 220 / Math.max(me?.cards?.length || 1, 1)))}px`,
+            "--mobile-card-height": `${Math.max(62, Math.min(86, 52 + 360 / Math.max(me?.cards?.length || 1, 1)))}px`,
+            "--mobile-landscape-card-width": `${Math.max(34, Math.min(50, 28 + 240 / Math.max(me?.cards?.length || 1, 1)))}px`,
+            "--mobile-landscape-card-height": `${Math.max(52, Math.min(76, 46 + 320 / Math.max(me?.cards?.length || 1, 1)))}px`,
+          }}>
+            {me?.cards?.map((card, idx) => {
+              const handCount = me?.cards?.length || 1;
+              const handSpread = handCount <= 1 ? 50 : 7 + (idx / (handCount - 1)) * 86;
+              const handFan = handCount <= 1 ? 0 : ((idx / (handCount - 1)) - 0.5) * 18;
+              return (
+                <div key={card.id} className={`touchCardWrap ${selected.has(card.id) ? "isSelected" : ""} ${dragOverIdx===idx ? "isDragOver" : ""}`} style={{"--hand-index": idx, "--hand-left": `${handSpread}%`, "--hand-rotation": `${handFan}deg`}} data-hand-idx={idx} onPointerDown={e=>startTouchCard(e, card)}>
+                  <PlayingCard card={card} selected={selected.has(card.id)} clickable draggable onClick={()=>{ if (suppressNextClickRef.current) { suppressNextClickRef.current=false; return; } toggleCard(card.id); }} onDoubleClick={()=>canDiscard && !actionBlocked && action("discard", { cardId: card.id })} onDragStart={e=>onCardDragStart(e, card, idx)} onDragOver={e=>onCardDragOver(e, idx)} onDrop={e=>onCardDrop(e, idx)} onDragEnd={onDragEnd} dragOver={dragOverIdx===idx} />
+                </div>
+              );
+            })}
           </div>
           {touchGhost && <div className="touchGhost touchGhostCards" style={{left:touchGhost.x, top:touchGhost.y}}>{touchGhost.cards?.length ? touchGhost.cards.map((c, i) => <div className="touchGhostCard" style={{"--ghost-index": i}} key={c.id || i}><PlayingCard card={c} /></div>) : (touchGhost.count > 1 ? `${touchGhost.count} cartas` : "1 carta")}</div>}
           </section>
