@@ -969,7 +969,7 @@ export default function App() {
           </div>
         </section>
 
-        <div className="playerMeldRow"><MiniMelds player={me} orientation="horizontal" meId={viewerSeatId} onGroupDrop={onGroupDrop} dropTarget={dropTarget} /></div>
+        <div className={`playerMeldRow ${me?.hasDropped && me?.meldedGroups?.length ? "hasMelds" : ""}`}><MiniMelds player={me} orientation="horizontal" meId={viewerSeatId} onGroupDrop={onGroupDrop} dropTarget={dropTarget} /></div>
 
         <section ref={handPanelRef} className="handPanel" data-player-seat={viewerSeatId}>
           <div className="handHeader">
