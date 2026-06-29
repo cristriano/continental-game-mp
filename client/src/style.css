@@ -4117,7 +4117,7 @@ body,
 /* Phase 25 - portrait-only mobile experience */
 @media (pointer: coarse) and (orientation: landscape) and (max-width: 940px) {
   body::before {
-    content: "Roda o telemóvel para portrait";
+    content: "Roda o telemovel para portrait";
     position: fixed;
     inset: 0;
     z-index: 100000;
