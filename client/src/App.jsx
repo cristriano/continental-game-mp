@@ -92,7 +92,7 @@ function BotPlayer({ player, pos, active, meId, onGroupDrop, dropTarget }) {
   if (!player) return null;
   const vertical = pos === "left" || pos === "right";
   return (
-    <div className={`botArea ${pos}`}>
+    <div className={`botArea ${pos}`} data-player-seat={player.id}>
       {pos === "right" && <MiniMelds player={player} orientation="vertical" meId={meId} onGroupDrop={onGroupDrop} dropTarget={dropTarget} />}
       <div className={`botPlayer ${vertical ? "vertical" : "horizontal"} ${active ? "active" : ""}`}>
         <div className="botName">{displayName(player, meId)}</div>
@@ -318,6 +318,12 @@ export default function App() {
   const suppressNextClickRef = useRef(false);
   const [pendingAction, setPendingAction] = useState(false);
   const reconnectAttemptedRef = useRef(false);
+  const deckPileRef = useRef(null);
+  const discardPileRef = useRef(null);
+  const handPanelRef = useRef(null);
+  const previousGameRef = useRef(null);
+  const flightTimerRef = useRef(null);
+  const [cardFlight, setCardFlight] = useState(null);
 
   useEffect(() => {
     const setViewportVars = () => {
@@ -605,6 +611,84 @@ export default function App() {
     };
   }, [game, viewerSeatId]);
 
+  function getPlayerTargetEl(playerId) {
+    if (!playerId) return null;
+    if (playerId === viewerSeatId) return handPanelRef.current;
+    return document.querySelector(`[data-player-seat="${playerId}"]`);
+  }
+
+  function startCardFlight({ card, back=false, fromEl, toEl, direction="draw" }) {
+    if (!fromEl || !toEl || typeof window === "undefined") return;
+    const from = fromEl.getBoundingClientRect();
+    const to = toEl.getBoundingClientRect();
+    const startX = from.left + from.width / 2;
+    const startY = from.top + from.height / 2;
+    const endX = to.left + to.width / 2;
+    const endY = to.top + to.height / 2;
+    clearTimeout(flightTimerRef.current);
+    setCardFlight({
+      card,
+      back,
+      direction,
+      style: {
+        "--flight-x": `${startX}px`,
+        "--flight-y": `${startY}px`,
+        "--flight-dx": `${endX - startX}px`,
+        "--flight-dy": `${endY - startY}px`,
+      },
+    });
+    flightTimerRef.current = setTimeout(() => setCardFlight(null), 620);
+  }
+
+  useEffect(() => {
+    if (!game?.players?.length) return;
+    const current = {
+      drawCount: game.drawCount ?? 0,
+      discardTopId: game.discardPile?.[0]?.id || null,
+      discardTop: game.discardPile?.[0] || null,
+      players: Object.fromEntries((game.players || []).map(p => [p.id, {
+        id: p.id,
+        count: p.cardCount ?? p.cards?.length ?? 0,
+        cards: p.cards || [],
+      }])),
+    };
+    const previous = previousGameRef.current;
+    previousGameRef.current = current;
+    if (!previous || game.phase === "lobby") return;
+
+    for (const player of game.players || []) {
+      const before = previous.players[player.id];
+      const after = current.players[player.id];
+      if (!before || !after) continue;
+      const delta = after.count - before.count;
+      if (delta === 1) {
+        const beforeIds = new Set(before.cards.map(c => c.id));
+        const addedCard = after.cards.find(c => !beforeIds.has(c.id));
+        const sourceEl = current.discardTopId !== previous.discardTopId && previous.discardTopId
+          ? discardPileRef.current
+          : deckPileRef.current;
+        startCardFlight({
+          card: player.id === viewerSeatId ? addedCard : null,
+          back: player.id !== viewerSeatId || !addedCard,
+          fromEl: sourceEl,
+          toEl: getPlayerTargetEl(player.id),
+          direction: "draw",
+        });
+        break;
+      }
+      if (delta === -1 && current.discardTopId && current.discardTopId !== previous.discardTopId) {
+        startCardFlight({
+          card: current.discardTop,
+          back: false,
+          fromEl: getPlayerTargetEl(player.id),
+          toEl: discardPileRef.current,
+          direction: "discard",
+        });
+        break;
+      }
+    }
+  }, [game, viewerSeatId]);
+
   function toggleCard(id) {
     setSelected(prev => {
       const next = new Set(prev);
@@ -831,11 +915,11 @@ export default function App() {
             </div>
             <small>{game.drawCount ?? 0} cartas no baralho</small>
             <div className="piles">
-              <div className={canDraw ? "pile clickable" : "pile"} onClick={()=>canDraw && !actionBlocked && action("drawDeck")}>
+              <div ref={deckPileRef} className={canDraw ? "pile clickable" : "pile"} onClick={()=>canDraw && !actionBlocked && action("drawDeck")}>
                 <div className="deckWithCount"><PlayingCard back clickable={canDraw} /><span>{game.drawCount > 99 ? "99+" : game.drawCount}</span></div>
                 <strong>COMPRAR</strong>
               </div>
-              <div className={canDraw ? "pile clickable" : "pile"} data-discard-drop="true" onClick={()=>canDraw && !actionBlocked && action("drawDiscard")} onDragOver={e=>canDiscard && e.preventDefault()} onDrop={onDiscardDrop}>
+              <div ref={discardPileRef} className={canDraw ? "pile clickable" : "pile"} data-discard-drop="true" onClick={()=>canDraw && !actionBlocked && action("drawDiscard")} onDragOver={e=>canDiscard && e.preventDefault()} onDrop={onDiscardDrop}>
                 <PlayingCard card={topDiscard} clickable={canDraw} />
                 <strong>DESCARTE</strong>
               </div>
@@ -845,7 +929,7 @@ export default function App() {
 
         <div className="playerMeldRow"><MiniMelds player={me} orientation="horizontal" meId={viewerSeatId} onGroupDrop={onGroupDrop} dropTarget={dropTarget} /></div>
 
-        <section className="handPanel">
+        <section ref={handPanelRef} className="handPanel" data-player-seat={viewerSeatId}>
           <div className="handHeader">
             <div><span className="greenDot" /> SUA MÃO {isMyTurn && <span className="turnBadge inline">▶ ATIVO</span>}</div>
             <div className="handActions">
@@ -873,6 +957,7 @@ export default function App() {
               );
             })}
           </div>
+          {cardFlight && <div className={`cardFlight ${cardFlight.direction}`} style={cardFlight.style}><PlayingCard card={cardFlight.card} back={cardFlight.back} /></div>}
           {touchGhost && <div className="touchGhost touchGhostCards" style={{left:touchGhost.x, top:touchGhost.y}}>{touchGhost.cards?.length ? touchGhost.cards.map((c, i) => <div className="touchGhostCard" style={{"--ghost-index": i}} key={c.id || i}><PlayingCard card={c} /></div>) : (touchGhost.count > 1 ? `${touchGhost.count} cartas` : "1 carta")}</div>}
           </section>
       </main>
