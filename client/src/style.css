@@ -3668,3 +3668,156 @@ body,
     align-content: center !important;
   }
 }
+
+/* Phase 22 - usable mobile hand hit targets and compact portrait fit */
+@media (max-width: 760px), (pointer: coarse) and (max-width: 940px) {
+  .touchCardWrap {
+    width: 72px !important;
+    min-width: 72px !important;
+    height: 100px !important;
+    min-height: 100px !important;
+    display: flex !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    touch-action: none !important;
+  }
+
+  .touchCardWrap .playing-card {
+    pointer-events: auto !important;
+  }
+
+  body.touch-dragging .touchCardWrap {
+    pointer-events: auto !important;
+  }
+
+  body.touch-dragging .playing-card {
+    pointer-events: none !important;
+  }
+}
+
+@media (max-width: 640px) and (orientation: portrait) {
+  .gameArea {
+    grid-template-rows: 48px 70px minmax(0, 1fr) 0 142px !important;
+    gap: 3px !important;
+    padding: calc(env(safe-area-inset-top) + 4px) 7px calc(env(safe-area-inset-bottom) + 5px) !important;
+  }
+
+  .roundBanner {
+    height: 48px !important;
+    min-height: 48px !important;
+    max-height: 48px !important;
+  }
+
+  .topBar {
+    height: 70px !important;
+    min-height: 70px !important;
+    max-height: 70px !important;
+  }
+
+  .roomActions .blue,
+  .roomActions .gold {
+    min-height: 30px !important;
+    padding: 4px 7px !important;
+    font-size: .62rem !important;
+  }
+
+  .botArea.top { top: -2px !important; transform: translateX(-50%) scale(.52) !important; }
+  .botArea.left { left: -18px !important; top: 43% !important; transform: translateY(-50%) scale(.46) !important; }
+  .botArea.right { right: -18px !important; top: 43% !important; transform: translateY(-50%) scale(.46) !important; }
+  .centerPiles { top: 61% !important; transform: translate(-50%, -50%) scale(.58) !important; }
+
+  .handPanel {
+    height: 142px !important;
+    min-height: 142px !important;
+    max-height: 142px !important;
+    padding: 5px 7px 6px !important;
+    border-radius: 14px !important;
+    overflow: visible !important;
+  }
+
+  .handHeader {
+    flex: 0 0 30px !important;
+    height: 30px !important;
+    min-height: 30px !important;
+    font-size: .64rem !important;
+  }
+
+  .handActions {
+    gap: 3px !important;
+  }
+
+  .handActions span,
+  .selBadge {
+    font-size: .6rem !important;
+  }
+
+  .handActions .blue,
+  .handActions .gold {
+    min-height: 26px !important;
+    padding: 3px 6px !important;
+    font-size: .58rem !important;
+    border-radius: 8px !important;
+  }
+
+  .handCards {
+    height: 98px !important;
+    min-height: 98px !important;
+    max-height: 98px !important;
+    padding: 0 18px !important;
+  }
+
+  .touchCardWrap {
+    height: 96px !important;
+    min-height: 96px !important;
+  }
+
+  .handCards .playing-card,
+  .touchCardWrap .playing-card {
+    width: 48px !important;
+    min-width: 48px !important;
+    max-width: 48px !important;
+    height: 72px !important;
+    min-height: 72px !important;
+    max-height: 72px !important;
+    padding: 5px !important;
+    border-radius: 9px !important;
+  }
+
+  .touchCardWrap.isPeeked {
+    transform: translateX(-50%) translateY(-16px) rotate(0deg) scale(1.16) !important;
+  }
+}
+
+@media (max-width: 390px) and (orientation: portrait) {
+  .gameArea { grid-template-rows: 44px 66px minmax(0, 1fr) 0 136px !important; }
+  .roundBanner { height: 44px !important; min-height: 44px !important; max-height: 44px !important; }
+  .topBar { height: 66px !important; min-height: 66px !important; max-height: 66px !important; }
+  .handPanel { height: 136px !important; min-height: 136px !important; max-height: 136px !important; }
+  .handCards { height: 92px !important; min-height: 92px !important; max-height: 92px !important; padding-inline: 16px !important; }
+  .handCards .playing-card,
+  .touchCardWrap .playing-card {
+    width: 44px !important;
+    min-width: 44px !important;
+    max-width: 44px !important;
+    height: 66px !important;
+    min-height: 66px !important;
+    max-height: 66px !important;
+  }
+}
+
+@media (orientation: landscape) and (max-height: 520px) {
+  .handCards {
+    padding: 0 18px !important;
+  }
+
+  .touchCardWrap {
+    width: 70px !important;
+    min-width: 70px !important;
+    height: 84px !important;
+    min-height: 84px !important;
+  }
+
+  .touchCardWrap.isPeeked {
+    transform: translateX(-50%) translateY(-12px) rotate(0deg) scale(1.12) !important;
+  }
+}

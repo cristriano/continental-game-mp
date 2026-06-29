@@ -323,6 +323,7 @@ export default function App() {
   const handPanelRef = useRef(null);
   const previousGameRef = useRef(null);
   const flightTimerRef = useRef(null);
+  const flightQueueTimersRef = useRef([]);
   const [cardFlight, setCardFlight] = useState(null);
 
   useEffect(() => {
@@ -640,6 +641,46 @@ export default function App() {
     flightTimerRef.current = setTimeout(() => setCardFlight(null), 620);
   }
 
+  function queueCardFlight(args, delay = 0) {
+    const timer = setTimeout(() => startCardFlight(args), delay);
+    flightQueueTimersRef.current.push(timer);
+    flightQueueTimersRef.current = flightQueueTimersRef.current.slice(-8);
+  }
+
+  function playerFromLogEntry(entry) {
+    if (!entry || !game?.players?.length) return null;
+    return game.players
+      .filter(p => p.type !== "empty")
+      .sort((a,b) => (b.name || "").length - (a.name || "").length)
+      .find(p => entry.startsWith(p.name || p.id));
+  }
+
+  function animateBotLogEntries(current, previous) {
+    const previousFirst = previous.log?.[0];
+    const newEntries = [];
+    for (const entry of current.log || []) {
+      if (entry === previousFirst) break;
+      newEntries.push(entry);
+    }
+    if (!newEntries.length) return false;
+
+    let queued = false;
+    [...newEntries].reverse().forEach((entry, index) => {
+      const player = playerFromLogEntry(entry);
+      if (!player || player.type !== "bot") return;
+      const delay = index * 540;
+      if (entry.includes(" comprou ")) {
+        const fromEl = entry.includes(" do descarte") ? discardPileRef.current : deckPileRef.current;
+        queueCardFlight({ back:true, fromEl, toEl:getPlayerTargetEl(player.id), direction:"draw" }, delay);
+        queued = true;
+      } else if (entry.includes(" descartou ")) {
+        queueCardFlight({ card: current.discardTop, back:false, fromEl:getPlayerTargetEl(player.id), toEl:discardPileRef.current, direction:"discard" }, delay);
+        queued = true;
+      }
+    });
+    return queued;
+  }
+
   useEffect(() => {
     if (!game?.players?.length) return;
     const current = {
@@ -648,20 +689,23 @@ export default function App() {
       discardTop: game.discardPile?.[0] || null,
       players: Object.fromEntries((game.players || []).map(p => [p.id, {
         id: p.id,
+        type: p.type,
         count: p.cardCount ?? p.cards?.length ?? 0,
         cards: p.cards || [],
       }])),
+      log: game.log || [],
     };
     const previous = previousGameRef.current;
     previousGameRef.current = current;
     if (!previous || game.phase === "lobby") return;
+    const botLogAnimated = animateBotLogEntries(current, previous);
 
     for (const player of game.players || []) {
       const before = previous.players[player.id];
       const after = current.players[player.id];
       if (!before || !after) continue;
       const delta = after.count - before.count;
-      if (delta === 1) {
+      if (delta === 1 && !(botLogAnimated && player.type === "bot")) {
         const beforeIds = new Set(before.cards.map(c => c.id));
         const addedCard = after.cards.find(c => !beforeIds.has(c.id));
         const sourceEl = current.discardTopId !== previous.discardTopId && previous.discardTopId
@@ -676,7 +720,7 @@ export default function App() {
         });
         break;
       }
-      if (delta === -1 && current.discardTopId && current.discardTopId !== previous.discardTopId) {
+      if (delta === -1 && !(botLogAnimated && player.type === "bot") && current.discardTopId && current.discardTopId !== previous.discardTopId) {
         startCardFlight({
           card: current.discardTop,
           back: false,
@@ -780,10 +824,8 @@ export default function App() {
       const dx = e.clientX - d.startX;
       const dy = e.clientY - d.startY;
       if (!d.dragging && !d.ready) {
-        if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy) * 1.25) {
-          cleanupTouchDrag();
-        }
-        return;
+        if (Math.hypot(dx, dy) <= 7) return;
+        d.ready = true;
       }
       if (!d.dragging && Math.hypot(dx, dy) > 9) {
         d.dragging = true;
@@ -948,7 +990,7 @@ export default function App() {
           }}>
             {me?.cards?.map((card, idx) => {
               const handCount = me?.cards?.length || 1;
-              const handSpread = handCount <= 1 ? 50 : 7 + (idx / (handCount - 1)) * 86;
+              const handSpread = handCount <= 1 ? 50 : 10 + (idx / (handCount - 1)) * 80;
               const handFan = handCount <= 1 ? 0 : ((idx / (handCount - 1)) - 0.5) * 18;
               return (
                 <div key={card.id} className={`touchCardWrap ${selected.has(card.id) ? "isSelected" : ""} ${peekedCardId === card.id ? "isPeeked" : ""} ${dragOverIdx===idx ? "isDragOver" : ""}`} style={{"--hand-index": idx, "--hand-left": `${handSpread}%`, "--hand-rotation": `${handFan}deg`}} data-hand-idx={idx} onPointerDown={e=>startTouchCard(e, card)}>
