@@ -217,7 +217,7 @@ function Scoreboard({ game, meId, onClose }) {
     <div className="scoreboardPanel">
       <div className="scoreboardHeader">
         <strong>PLACAR GERAL</strong>
-        <button className="miniBtn" onClick={onClose}>× fechar</button>
+        <button className="miniBtn" onClick={onClose}>Ã— fechar</button>
       </div>
       <div className="scoreboardTableWrap">
         <table className="scoreboardTable">
@@ -799,19 +799,20 @@ export default function App() {
     if (e.pointerType === "mouse") return;
     if (!me?.cards?.some(c => c.id === card.id)) return;
     const ids = selected.has(card.id) ? [...selected] : [card.id];
+    const rect = e.currentTarget.getBoundingClientRect();
+    const offsetX = e.clientX - (rect.left + rect.width / 2);
+    const offsetY = e.clientY - (rect.top + rect.height / 2);
     setPeekedCardId(card.id);
     clearTimeout(touchDragRef.current.timer);
-    const nextDrag = { active:true, ready:false, dragging:false, ids, startX:e.clientX, startY:e.clientY, x:e.clientX, y:e.clientY, timer:null };
-    nextDrag.timer = setTimeout(() => {
-      touchDragRef.current.ready = true;
-    }, 170);
-    touchDragRef.current = nextDrag;
+    dragRef.current = { ids, source: "hand" };
+    touchDragRef.current = { active:true, ready:true, dragging:false, ids, startX:e.clientX, startY:e.clientY, x:e.clientX, y:e.clientY, offsetX, offsetY, timer:null };
   }
 
   useEffect(() => {
     function cleanupTouchDrag() {
       clearTimeout(touchDragRef.current.timer);
-      touchDragRef.current = { active:false, ready:false, dragging:false, ids:[], startX:0, startY:0, x:0, y:0, timer:null };
+      touchDragRef.current = { active:false, ready:false, dragging:false, ids:[], startX:0, startY:0, x:0, y:0, offsetX:0, offsetY:0, timer:null };
+      dragRef.current = { ids: [], source: null };
       setTouchGhost(null);
       setDragOverIdx(null);
       setDropTarget(null);
@@ -829,6 +830,7 @@ export default function App() {
       }
       if (!d.dragging && Math.hypot(dx, dy) > 9) {
         d.dragging = true;
+        setPeekedCardId(null);
         suppressNextClickRef.current = true;
         document.body.classList.add("touch-dragging");
       }
@@ -836,7 +838,7 @@ export default function App() {
       e.preventDefault();
       d.x = e.clientX;
       d.y = e.clientY;
-      setTouchGhost({ x:e.clientX, y:e.clientY, count:d.ids.length, cards:(me?.cards || []).filter(c => d.ids.includes(c.id)).slice(0,3) });
+      setTouchGhost({ x:e.clientX - (d.offsetX || 0), y:e.clientY - (d.offsetY || 0), count:d.ids.length, cards:(me?.cards || []).filter(c => d.ids.includes(c.id)).slice(0,3) });
 
       const el = document.elementFromPoint(e.clientX, e.clientY);
       const handEl = el?.closest?.("[data-hand-idx]");
