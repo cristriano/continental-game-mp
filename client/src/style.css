@@ -4708,3 +4708,109 @@ body,
     max-height: 80px !important;
   }
 }
+
+/* Phase 28 - keep desktop card layout on fine-pointer devices */
+@media (pointer: fine) {
+  body {
+    position: static !important;
+  }
+
+  .appShell {
+    visibility: visible !important;
+    pointer-events: auto !important;
+  }
+
+  .gameArea:not(.phase-lobby) {
+    grid-template-rows: 70px 44px minmax(0, 1fr) 82px 160px !important;
+  }
+
+  .handPanel {
+    height: 160px !important;
+    min-height: 160px !important;
+    max-height: 160px !important;
+    display: block !important;
+    padding: 10px 16px !important;
+    overflow: visible !important;
+  }
+
+  .handHeader {
+    display: flex !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    flex-basis: auto !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+  }
+
+  .handActions {
+    display: flex !important;
+    width: auto !important;
+    max-width: none !important;
+    height: auto !important;
+    grid-template-columns: none !important;
+    gap: 8px !important;
+    overflow: visible !important;
+  }
+
+  .handActions .blue,
+  .handActions .gold {
+    width: auto !important;
+    min-width: 0 !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 6px 9px !important;
+    font-size: .7rem !important;
+    white-space: nowrap !important;
+  }
+
+  .handCards {
+    position: static !important;
+    height: 104px !important;
+    min-height: 104px !important;
+    max-height: 104px !important;
+    display: flex !important;
+    gap: 8px !important;
+    align-items: end !important;
+    justify-content: center !important;
+    overflow: visible !important;
+    padding: 0 !important;
+  }
+
+  .touchCardWrap {
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    bottom: auto !important;
+    width: auto !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    margin: 0 !important;
+    transform: none !important;
+  }
+
+  .touchCardWrap .playing-card,
+  .handCards .playing-card {
+    width: 64px !important;
+    min-width: 64px !important;
+    max-width: 64px !important;
+    height: 96px !important;
+    min-height: 96px !important;
+    max-height: 96px !important;
+    padding: 8px !important;
+    border-radius: 12px !important;
+  }
+
+  .touchCardWrap.isSelected,
+  .touchCardWrap.isPeeked,
+  .touchCardWrap.isDragOver {
+    transform: none !important;
+  }
+
+  .touchCardWrap.isSelected .playing-card {
+    transform: translateY(-12px) !important;
+  }
+}
