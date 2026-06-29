@@ -917,7 +917,7 @@ export default function App() {
         <div className="logList">{game.log?.map((l,i)=><div key={`${i}-${l}`} className={`logItem ${i===0 ? "latest" : ""}`}>{l}</div>)}</div>
       </aside>
 
-      <main className="gameArea">
+      <main className={`gameArea phase-${game.phase || "unknown"}`}>
         <RoundBanner round={round} />
         <div className="topBar">
           <h1>CONTINENTAL</h1>

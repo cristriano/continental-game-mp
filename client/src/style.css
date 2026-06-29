@@ -4401,3 +4401,267 @@ body,
     max-height: 70px !important;
   }
 }
+
+/* Phase 26 - portrait layout split between lobby and active game */
+@media (max-width: 640px) and (orientation: portrait) {
+  .gameArea {
+    width: 100vw !important;
+    height: var(--app-height, 100dvh) !important;
+    max-height: var(--app-height, 100dvh) !important;
+    grid-template-rows: 44px 92px minmax(0, 1fr) 0 164px !important;
+    padding: calc(env(safe-area-inset-top) + 4px) 8px calc(env(safe-area-inset-bottom) + 6px) !important;
+    gap: 5px !important;
+  }
+
+  .roundBanner {
+    height: 44px !important;
+    min-height: 44px !important;
+    max-height: 44px !important;
+    border-radius: 14px !important;
+    padding: 5px 10px !important;
+  }
+
+  .tinyTitle { font-size: .5rem !important; }
+  .roundTitle { font-size: .95rem !important; }
+  .pill { font-size: .58rem !important; padding: 1px 8px !important; }
+  .roundCards { padding: 4px 9px !important; border-radius: 12px !important; }
+  .roundCards strong { font-size: 1.25rem !important; }
+
+  .topBar {
+    height: 92px !important;
+    min-height: 92px !important;
+    max-height: 92px !important;
+    display: grid !important;
+    grid-template-columns: 1fr auto !important;
+    grid-template-rows: 28px 58px !important;
+    align-items: start !important;
+    gap: 3px 8px !important;
+    overflow: hidden !important;
+  }
+
+  .topBar h1 {
+    grid-column: 1 / 2 !important;
+    grid-row: 1 !important;
+    width: auto !important;
+    font-size: 1.18rem !important;
+    line-height: 1 !important;
+    letter-spacing: .09em !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: clip !important;
+  }
+
+  .topBar > .status {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    align-self: start !important;
+    justify-self: end !important;
+    font-size: .6rem !important;
+    padding: 4px 9px !important;
+    max-width: 118px !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+  }
+
+  .roomActions {
+    grid-column: 1 / -1 !important;
+    grid-row: 2 !important;
+    display: grid !important;
+    grid-template-columns: 1fr 1.55fr .72fr !important;
+    grid-auto-rows: 27px !important;
+    width: 100% !important;
+    gap: 4px !important;
+    align-items: stretch !important;
+    overflow: hidden !important;
+  }
+
+  .roomActions .netStatus { display: none !important; }
+
+  .roomActions .blue,
+  .roomActions .gold {
+    width: 100% !important;
+    min-width: 0 !important;
+    min-height: 27px !important;
+    height: 27px !important;
+    padding: 3px 6px !important;
+    border-radius: 9px !important;
+    font-size: .62rem !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .roomActions .gold {
+    color: #1a1100 !important;
+  }
+
+  .table {
+    border-radius: 16px !important;
+  }
+
+  .centerPiles {
+    top: 58% !important;
+    transform: translate(-50%, -50%) scale(.56) !important;
+  }
+
+  .handPanel {
+    height: 164px !important;
+    min-height: 164px !important;
+    max-height: 164px !important;
+    display: grid !important;
+    grid-template-rows: 58px minmax(0, 98px) !important;
+    padding: 7px 8px 6px !important;
+    overflow: hidden !important;
+  }
+
+  .handHeader {
+    display: grid !important;
+    grid-template-rows: 22px 32px !important;
+    height: 58px !important;
+    min-height: 58px !important;
+    max-height: 58px !important;
+    align-items: start !important;
+    gap: 2px !important;
+  }
+
+  .handHeader > div:first-child {
+    font-size: .66rem !important;
+    line-height: 1 !important;
+  }
+
+  .handActions {
+    display: grid !important;
+    grid-template-columns: .48fr 1.08fr 1.12fr .86fr .7fr !important;
+    gap: 3px !important;
+    height: 32px !important;
+    align-items: stretch !important;
+  }
+
+  .handActions > span:first-child {
+    align-self: center !important;
+    font-size: .52rem !important;
+  }
+
+  .handActions .blue,
+  .handActions .gold {
+    height: 30px !important;
+    min-height: 30px !important;
+    padding: 2px 4px !important;
+    font-size: .52rem !important;
+    line-height: 1 !important;
+  }
+
+  .handCards {
+    position: relative !important;
+    height: 98px !important;
+    min-height: 98px !important;
+    max-height: 98px !important;
+    padding: 0 18px 10px !important;
+    overflow: hidden !important;
+  }
+
+  .touchCardWrap {
+    top: auto !important;
+    bottom: 8px !important;
+    height: 82px !important;
+    min-height: 82px !important;
+    align-items: end !important;
+  }
+
+  .handCards .playing-card,
+  .touchCardWrap .playing-card {
+    width: 48px !important;
+    min-width: 48px !important;
+    max-width: 48px !important;
+    height: 70px !important;
+    min-height: 70px !important;
+    max-height: 70px !important;
+    padding: 5px !important;
+  }
+
+  .touchCardWrap.isPeeked {
+    transform: translateX(-50%) translateY(-12px) rotate(0deg) scale(1.13) !important;
+  }
+
+  .gameArea.phase-lobby {
+    grid-template-rows: 44px 122px minmax(0, 1fr) 0 0 !important;
+  }
+
+  .gameArea.phase-lobby .topBar {
+    height: 122px !important;
+    min-height: 122px !important;
+    max-height: 122px !important;
+    grid-template-rows: 28px 88px !important;
+  }
+
+  .gameArea.phase-lobby .roomActions {
+    grid-template-columns: 1fr 1.25fr .82fr !important;
+    grid-auto-rows: 40px !important;
+    gap: 6px !important;
+  }
+
+  .gameArea.phase-lobby .roomActions .blue,
+  .gameArea.phase-lobby .roomActions .gold {
+    height: 40px !important;
+    min-height: 40px !important;
+    font-size: .72rem !important;
+    border-radius: 11px !important;
+  }
+
+  .gameArea.phase-lobby .playerMeldRow,
+  .gameArea.phase-lobby .handPanel {
+    display: none !important;
+  }
+
+  .gameArea.phase-lobby .table {
+    margin-top: 0 !important;
+  }
+
+  .gameArea.phase-lobby .centerPiles {
+    top: 58% !important;
+    transform: translate(-50%, -50%) scale(.48) !important;
+    opacity: .65 !important;
+  }
+
+  .gameArea:has(.playerMeldRow.hasMelds):not(.phase-lobby) {
+    grid-template-rows: 44px 88px minmax(0, 1fr) 42px 154px !important;
+  }
+
+  .gameArea:has(.playerMeldRow.hasMelds):not(.phase-lobby) .handPanel {
+    height: 154px !important;
+    min-height: 154px !important;
+    max-height: 154px !important;
+  }
+}
+
+@media (max-width: 390px) and (orientation: portrait) {
+  .gameArea {
+    grid-template-rows: 42px 88px minmax(0, 1fr) 0 158px !important;
+  }
+
+  .topBar {
+    height: 88px !important;
+    min-height: 88px !important;
+    max-height: 88px !important;
+    grid-template-rows: 26px 56px !important;
+  }
+
+  .topBar h1 { font-size: 1.05rem !important; }
+
+  .handPanel {
+    height: 158px !important;
+    min-height: 158px !important;
+    max-height: 158px !important;
+  }
+
+  .handCards .playing-card,
+  .touchCardWrap .playing-card {
+    width: 45px !important;
+    min-width: 45px !important;
+    max-width: 45px !important;
+    height: 67px !important;
+    min-height: 67px !important;
+    max-height: 67px !important;
+  }
+}
