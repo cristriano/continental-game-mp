@@ -309,6 +309,7 @@ export default function App() {
   const [error, setError] = useState("");
   const [connected, setConnected] = useState(socket.connected);
   const [selected, setSelected] = useState(new Set());
+  const [peekedCardId, setPeekedCardId] = useState(null);
   const dragRef = useRef({ ids: [], source: null });
   const [dragOverIdx, setDragOverIdx] = useState(null);
   const [dropTarget, setDropTarget] = useState(null);
@@ -398,6 +399,7 @@ export default function App() {
 
   useEffect(() => {
     setSelected(new Set());
+    setPeekedCardId(null);
   }, [game?.roundIndex, game?.phase === "round_end", game?.phase === "game_end"]);
 
   function saveSession(nextCode, nextSeatId, nextSeatToken) {
@@ -606,7 +608,13 @@ export default function App() {
   function toggleCard(id) {
     setSelected(prev => {
       const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
+      if (next.has(id)) {
+        next.delete(id);
+        setPeekedCardId(null);
+      } else {
+        next.add(id);
+        setPeekedCardId(id);
+      }
       return next;
     });
   }
@@ -614,12 +622,14 @@ export default function App() {
     if (selected.size !== 1) return;
     const [cardId] = [...selected];
     setSelected(new Set());
+    setPeekedCardId(null);
     action("discard", { cardId });
   }
   function meldSelected() {
     if (selected.size < 3) return;
     const cardIds = [...selected];
     setSelected(new Set());
+    setPeekedCardId(null);
     action("meld", { cardIds });
   }
 
@@ -634,6 +644,7 @@ export default function App() {
       return (VALUE_RANK[a.value] ?? 99) - (VALUE_RANK[b.value] ?? 99);
     });
     setSelected(new Set());
+    setPeekedCardId(null);
     sendReorder(sorted);
   }
 
@@ -652,6 +663,7 @@ export default function App() {
       return (SUIT_ORDER[a.suit] ?? 9) - (SUIT_ORDER[b.suit] ?? 9);
     });
     setSelected(new Set());
+    setPeekedCardId(null);
     sendReorder(sorted);
   }
 
@@ -659,6 +671,7 @@ export default function App() {
     if (e.pointerType === "mouse") return;
     if (!me?.cards?.some(c => c.id === card.id)) return;
     const ids = selected.has(card.id) ? [...selected] : [card.id];
+    setPeekedCardId(card.id);
     clearTimeout(touchDragRef.current.timer);
     const nextDrag = { active:true, ready:false, dragging:false, ids, startX:e.clientX, startY:e.clientY, x:e.clientX, y:e.clientY, timer:null };
     nextDrag.timer = setTimeout(() => {
@@ -720,6 +733,7 @@ export default function App() {
 
       if (discardEl && canDiscard && ids.length === 1) {
         setSelected(new Set());
+        setPeekedCardId(null);
         action("discard", { cardId: ids[0] });
       } else if (meldEl && canDiscard && me?.hasDropped && ids.length === 1) {
         const rect = meldEl.getBoundingClientRect();
@@ -738,6 +752,7 @@ export default function App() {
         sendReorder([...remaining.slice(0, insertAt), ...moving, ...remaining.slice(insertAt)]);
       } else if (tableEl && canDiscard && !me?.hasDropped && ids.length >= 3) {
         setSelected(new Set());
+        setPeekedCardId(null);
         action("meld", { cardIds: ids });
       }
       cleanupTouchDrag();
@@ -852,7 +867,7 @@ export default function App() {
               const handSpread = handCount <= 1 ? 50 : 7 + (idx / (handCount - 1)) * 86;
               const handFan = handCount <= 1 ? 0 : ((idx / (handCount - 1)) - 0.5) * 18;
               return (
-                <div key={card.id} className={`touchCardWrap ${selected.has(card.id) ? "isSelected" : ""} ${dragOverIdx===idx ? "isDragOver" : ""}`} style={{"--hand-index": idx, "--hand-left": `${handSpread}%`, "--hand-rotation": `${handFan}deg`}} data-hand-idx={idx} onPointerDown={e=>startTouchCard(e, card)}>
+                <div key={card.id} className={`touchCardWrap ${selected.has(card.id) ? "isSelected" : ""} ${peekedCardId === card.id ? "isPeeked" : ""} ${dragOverIdx===idx ? "isDragOver" : ""}`} style={{"--hand-index": idx, "--hand-left": `${handSpread}%`, "--hand-rotation": `${handFan}deg`}} data-hand-idx={idx} onPointerDown={e=>startTouchCard(e, card)}>
                   <PlayingCard card={card} selected={selected.has(card.id)} clickable draggable onClick={()=>{ if (suppressNextClickRef.current) { suppressNextClickRef.current=false; return; } toggleCard(card.id); }} onDoubleClick={()=>canDiscard && !actionBlocked && action("discard", { cardId: card.id })} onDragStart={e=>onCardDragStart(e, card, idx)} onDragOver={e=>onCardDragOver(e, idx)} onDrop={e=>onCardDrop(e, idx)} onDragEnd={onDragEnd} dragOver={dragOverIdx===idx} />
                 </div>
               );
