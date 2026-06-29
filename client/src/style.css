@@ -4814,3 +4814,63 @@ body,
     transform: translateY(-12px) !important;
   }
 }
+
+/* Phase 29 - keep mobile hand card indices inside the card */
+@media (max-width: 640px) and (orientation: portrait) and (pointer: coarse) {
+  .handCards .playing-card,
+  .touchCardWrap .playing-card {
+    overflow: hidden !important;
+    padding: 6px 6px 7px !important;
+  }
+
+  .handCards .playing-card .corner,
+  .touchCardWrap .playing-card .corner {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 0 !important;
+    line-height: .86 !important;
+    max-width: 100% !important;
+    font-size: 1rem !important;
+  }
+
+  .handCards .playing-card .corner div:first-child,
+  .touchCardWrap .playing-card .corner div:first-child {
+    font-size: 1.38em !important;
+    line-height: .86 !important;
+  }
+
+  .handCards .playing-card .corner div:last-child,
+  .touchCardWrap .playing-card .corner div:last-child {
+    font-size: 1.35em !important;
+    line-height: .78 !important;
+    margin-top: -1px !important;
+  }
+
+  .handCards .playing-card .corner.rotate,
+  .touchCardWrap .playing-card .corner.rotate {
+    align-self: flex-end !important;
+    align-items: flex-end !important;
+    margin-bottom: 0 !important;
+  }
+
+  .handCards .playing-card .corner.rotate div:first-child,
+  .touchCardWrap .playing-card .corner.rotate div:first-child {
+    font-size: 1.36em !important;
+  }
+
+  .handCards .playing-card .corner.rotate div:last-child,
+  .touchCardWrap .playing-card .corner.rotate div:last-child {
+    font-size: 1.34em !important;
+  }
+
+  .touchCardWrap.isPeeked .playing-card .corner div:first-child,
+  .touchCardWrap.isSelected .playing-card .corner div:first-child {
+    font-size: 1.3em !important;
+  }
+
+  .touchCardWrap.isPeeked .playing-card .corner div:last-child,
+  .touchCardWrap.isSelected .playing-card .corner div:last-child {
+    font-size: 1.28em !important;
+  }
+}
