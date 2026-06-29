@@ -4113,3 +4113,291 @@ body,
     max-height: 74px !important;
   }
 }
+
+/* Phase 25 - portrait-only mobile experience */
+@media (pointer: coarse) and (orientation: landscape) and (max-width: 940px) {
+  body::before {
+    content: "Roda o telemóvel para portrait";
+    position: fixed;
+    inset: 0;
+    z-index: 100000;
+    display: grid;
+    place-items: center;
+    padding: 28px;
+    text-align: center;
+    color: #ffd700;
+    font: 900 1.15rem/1.25 Georgia, serif;
+    letter-spacing: .04em;
+    background: radial-gradient(ellipse at 50% 42%, #17623d 0%, #0b3d23 58%, #04170e 100%);
+  }
+
+  body::after {
+    content: "O modo landscape foi desativado para melhorar a jogabilidade no mobile.";
+    position: fixed;
+    left: 24px;
+    right: 24px;
+    top: calc(50% + 44px);
+    z-index: 100001;
+    color: rgba(255, 255, 255, .72);
+    text-align: center;
+    font: 700 .78rem/1.35 Georgia, serif;
+  }
+
+  .appShell {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
+
+@media (max-width: 640px) and (orientation: portrait) {
+  .gameArea {
+    grid-template-rows: 46px 78px minmax(0, 1fr) 0 178px !important;
+    gap: 4px !important;
+    padding: calc(env(safe-area-inset-top) + 4px) 7px calc(env(safe-area-inset-bottom) + 4px) !important;
+  }
+
+  .topBar {
+    height: 78px !important;
+    min-height: 78px !important;
+    max-height: 78px !important;
+    align-content: start !important;
+    gap: 4px !important;
+  }
+
+  .topBar h1 {
+    font-size: 1.12rem !important;
+    line-height: 1 !important;
+  }
+
+  .topBar > .status {
+    justify-self: end !important;
+    font-size: .62rem !important;
+    padding: 4px 9px !important;
+  }
+
+  .roomActions {
+    display: grid !important;
+    grid-template-columns: auto 1fr auto !important;
+    width: 100% !important;
+    gap: 5px !important;
+  }
+
+  .roomActions .blue,
+  .roomActions .gold {
+    min-height: 32px !important;
+    height: 32px !important;
+    padding: 4px 8px !important;
+    font-size: .68rem !important;
+    white-space: nowrap !important;
+  }
+
+  .table {
+    border-radius: 14px !important;
+  }
+
+  .botArea.top {
+    top: 8px !important;
+    transform: translateX(-50%) scale(.5) !important;
+  }
+
+  .botArea.left {
+    left: -7px !important;
+    top: 49% !important;
+    transform: translateY(-50%) scale(.4) !important;
+  }
+
+  .botArea.right {
+    right: -7px !important;
+    top: 49% !important;
+    transform: translateY(-50%) scale(.4) !important;
+  }
+
+  .centerPiles {
+    top: 60% !important;
+    transform: translate(-50%, -50%) scale(.58) !important;
+  }
+
+  .phaseHint {
+    max-width: calc(100vw - 92px) !important;
+    padding: 4px 10px !important;
+    font-size: .68rem !important;
+    white-space: nowrap !important;
+  }
+
+  .handPanel {
+    height: 178px !important;
+    min-height: 178px !important;
+    max-height: 178px !important;
+    padding: 7px 8px 8px !important;
+    border-radius: 15px !important;
+    overflow: visible !important;
+  }
+
+  .handHeader {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    grid-template-rows: 24px 42px !important;
+    align-items: start !important;
+    gap: 2px !important;
+    height: 68px !important;
+    min-height: 68px !important;
+    max-height: 68px !important;
+    flex-basis: 68px !important;
+    font-size: .66rem !important;
+  }
+
+  .handHeader > div:first-child {
+    max-width: none !important;
+    width: 100% !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .greenDot {
+    width: 9px !important;
+    height: 9px !important;
+    margin-right: 6px !important;
+  }
+
+  .turnBadge.inline {
+    margin-left: 5px !important;
+    padding: 2px 6px !important;
+    font-size: .54rem !important;
+  }
+
+  .handActions {
+    width: 100% !important;
+    max-width: none !important;
+    display: grid !important;
+    grid-template-columns: .58fr 1fr 1fr .86fr .72fr !important;
+    gap: 4px !important;
+    align-items: center !important;
+    justify-content: stretch !important;
+    overflow: hidden !important;
+  }
+
+  .handActions > span:first-child {
+    font-size: .56rem !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+  }
+
+  .handActions .selBadge {
+    display: none !important;
+  }
+
+  .handActions .blue,
+  .handActions .gold {
+    min-width: 0 !important;
+    width: 100% !important;
+    min-height: 32px !important;
+    height: 32px !important;
+    padding: 3px 4px !important;
+    border-radius: 9px !important;
+    font-size: .58rem !important;
+    line-height: 1 !important;
+    white-space: normal !important;
+    overflow: hidden !important;
+  }
+
+  .handCards {
+    height: 104px !important;
+    min-height: 104px !important;
+    max-height: 104px !important;
+    padding: 3px 20px 0 !important;
+    align-items: end !important;
+  }
+
+  .touchCardWrap {
+    height: 100px !important;
+    min-height: 100px !important;
+  }
+
+  .handCards .playing-card,
+  .touchCardWrap .playing-card {
+    width: 50px !important;
+    min-width: 50px !important;
+    max-width: 50px !important;
+    height: 74px !important;
+    min-height: 74px !important;
+    max-height: 74px !important;
+  }
+
+  .touchCardWrap.isPeeked {
+    transform: translateX(-50%) translateY(-14px) rotate(0deg) scale(1.14) !important;
+  }
+
+  .gameArea:has(.playerMeldRow.hasMelds) {
+    grid-template-rows: 44px 74px minmax(0, 1fr) 42px 166px !important;
+  }
+
+  .gameArea:has(.playerMeldRow.hasMelds) .handPanel {
+    height: 166px !important;
+    min-height: 166px !important;
+    max-height: 166px !important;
+  }
+
+  .gameArea:has(.playerMeldRow.hasMelds) .handHeader {
+    height: 62px !important;
+    min-height: 62px !important;
+    max-height: 62px !important;
+    flex-basis: 62px !important;
+  }
+
+  .gameArea:has(.playerMeldRow.hasMelds) .handCards {
+    height: 96px !important;
+    min-height: 96px !important;
+    max-height: 96px !important;
+  }
+}
+
+@media (max-width: 390px) and (orientation: portrait) {
+  .gameArea {
+    grid-template-rows: 44px 76px minmax(0, 1fr) 0 170px !important;
+  }
+
+  .handPanel {
+    height: 170px !important;
+    min-height: 170px !important;
+    max-height: 170px !important;
+  }
+
+  .handHeader {
+    grid-template-rows: 23px 40px !important;
+    height: 65px !important;
+    min-height: 65px !important;
+    max-height: 65px !important;
+    flex-basis: 65px !important;
+  }
+
+  .handActions {
+    grid-template-columns: .5fr 1fr 1fr .8fr .66fr !important;
+    gap: 3px !important;
+  }
+
+  .handActions .blue,
+  .handActions .gold {
+    font-size: .52rem !important;
+    min-height: 30px !important;
+    height: 30px !important;
+  }
+
+  .handCards {
+    height: 100px !important;
+    min-height: 100px !important;
+    max-height: 100px !important;
+    padding-inline: 18px !important;
+  }
+
+  .handCards .playing-card,
+  .touchCardWrap .playing-card {
+    width: 47px !important;
+    min-width: 47px !important;
+    max-width: 47px !important;
+    height: 70px !important;
+    min-height: 70px !important;
+    max-height: 70px !important;
+  }
+}
