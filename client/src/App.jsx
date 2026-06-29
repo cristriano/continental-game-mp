@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+﻿import { useEffect, useMemo, useRef, useState } from "react";
 import { socket } from "./socket";
 import "./style.css";
 
@@ -10,23 +10,23 @@ function contraNeedsPenalty(buyer, discardedBy) {
   return !!buyer && !!discardedBy && FREE_DISCARD_FROM[buyer] !== discardedBy;
 }
 const ROUNDS = [
-  { index:0, label:"Mão 1", code:"TT",  goalPT:"2 Trios",               cards:7,  trios:2, seqs:0 },
-  { index:1, label:"Mão 2", code:"TR",  goalPT:"1 Trio + 1 Sequência",  cards:8,  trios:1, seqs:1 },
-  { index:2, label:"Mão 3", code:"RR",  goalPT:"2 Sequências",           cards:9,  trios:0, seqs:2 },
-  { index:3, label:"Mão 4", code:"TTT", goalPT:"3 Trios",               cards:10, trios:3, seqs:0 },
-  { index:4, label:"Mão 5", code:"TTR", goalPT:"2 Trios + 1 Sequência", cards:11, trios:2, seqs:1 },
-  { index:5, label:"Mão 6", code:"TRR", goalPT:"1 Trio + 2 Sequências", cards:12, trios:1, seqs:2 },
-  { index:6, label:"Mão 7", code:"RRR", goalPT:"3 Sequências",           cards:13, trios:0, seqs:3 },
+  { index:0, label:"MÃ£o 1", code:"TT",  goalPT:"2 Trios",               cards:7,  trios:2, seqs:0 },
+  { index:1, label:"MÃ£o 2", code:"TR",  goalPT:"1 Trio + 1 SequÃªncia",  cards:8,  trios:1, seqs:1 },
+  { index:2, label:"MÃ£o 3", code:"RR",  goalPT:"2 SequÃªncias",           cards:9,  trios:0, seqs:2 },
+  { index:3, label:"MÃ£o 4", code:"TTT", goalPT:"3 Trios",               cards:10, trios:3, seqs:0 },
+  { index:4, label:"MÃ£o 5", code:"TTR", goalPT:"2 Trios + 1 SequÃªncia", cards:11, trios:2, seqs:1 },
+  { index:5, label:"MÃ£o 6", code:"TRR", goalPT:"1 Trio + 2 SequÃªncias", cards:12, trios:1, seqs:2 },
+  { index:6, label:"MÃ£o 7", code:"RRR", goalPT:"3 SequÃªncias",           cards:13, trios:0, seqs:3 },
 ];
-const RED_SUITS = new Set(["♥","♦"]);
+const RED_SUITS = new Set(["â™¥","â™¦"]);
 const VALUES = ["A","2","3","4","5","6","7","8","9","10","J","Q","K"];
 const VALUE_RANK = Object.fromEntries(VALUES.map((v,i)=>[v,i]));
-const SUIT_ORDER = {"♠":0,"♥":1,"♦":2,"♣":3};
+const SUIT_ORDER = {"â™ ":0,"â™¥":1,"â™¦":2,"â™£":3};
 
 function cardLabel(card) { return card ? (card.isJoker ? "Joker" : `${card.value}${card.suit}`) : "?"; }
 function displayName(player, meId) {
-  if (!player) return "—";
-  if (player.id === meId) return "Você";
+  if (!player) return "â€”";
+  if (player.id === meId) return "VocÃª";
   return player.name || player.id;
 }
 
@@ -34,17 +34,17 @@ function PlayingCard({ card, selected=false, small=false, back=false, empty=fals
   if (back) {
     return (
       <div className={`playing-card back ${small ? "small" : ""} ${clickable ? "clickable" : ""}`} onClick={onClick}>
-        <div className="back-inner">♦</div>
+        <div className="back-inner">â™¦</div>
       </div>
     );
   }
   if (empty || !card) {
-    return <div className={`playing-card empty ${small ? "small" : ""}`}>—</div>;
+    return <div className={`playing-card empty ${small ? "small" : ""}`}>â€”</div>;
   }
   if (card.isJoker) {
     return (
       <div className={`playing-card joker ${small ? "small" : ""} ${selected ? "selected" : ""} ${clickable ? "clickable" : ""} ${dragOver ? "dragOver" : ""}`} onClick={onClick} onDoubleClick={onDoubleClick} draggable={draggable} onDragStart={onDragStart} onDragOver={onDragOver} onDrop={onDrop} onDragEnd={onDragEnd}>
-        <span className="joker-icon">🃏</span>
+        <span className="joker-icon">ðŸƒ</span>
         <span className="joker-label">JOKER</span>
       </div>
     );
@@ -60,7 +60,7 @@ function PlayingCard({ card, selected=false, small=false, back=false, empty=fals
 
 function CardBackStack({ count, vertical=false }) {
   const shown = Math.min(Math.max(count || 0, 0), 10);
-  if (!shown) return <div className="emptyBack">—</div>;
+  if (!shown) return <div className="emptyBack">â€”</div>;
   return (
     <div className={`cardBackStack ${vertical ? "vertical" : "horizontal"}`}>
       {Array.from({ length: shown }).map((_, i) => <div key={i} className="overlap"><PlayingCard back small /></div>)}
@@ -73,7 +73,7 @@ function MiniMelds({ player, orientation="vertical", meId, onGroupDrop, dropTarg
   const horizontal = orientation === "horizontal";
   return (
     <div className={`compactMelds ${horizontal ? "horizontal" : "vertical"}`}>
-      <div className="compactOwner">✓ {displayName(player, meId)}</div>
+      <div className="compactOwner">âœ“ {displayName(player, meId)}</div>
       <div className="compactGroups">
         {player.meldedGroups.map((group, gi) => (
           <div className={`compactGroup ${dropTarget?.playerId===player.id && dropTarget?.groupIndex===gi ? "groupDragOver" : ""}`} key={`${player.id}-${gi}`} data-meld-player-id={player.id} data-meld-group-index={gi} onDragOver={e=>{ if(onGroupDrop){ e.preventDefault(); } }} onDrop={e=>onGroupDrop?.(e, player.id, gi)}>
@@ -96,8 +96,8 @@ function BotPlayer({ player, pos, active, meId, onGroupDrop, dropTarget }) {
       {pos === "right" && <MiniMelds player={player} orientation="vertical" meId={meId} onGroupDrop={onGroupDrop} dropTarget={dropTarget} />}
       <div className={`botPlayer ${vertical ? "vertical" : "horizontal"} ${active ? "active" : ""}`}>
         <div className="botName">{displayName(player, meId)}</div>
-        {active && <div className="turnBadge">▶ VEZ</div>}
-        {player.hasDropped && <div className="dropBadge">✓ ABATEU</div>}
+        {active && <div className="turnBadge">â–¶ VEZ</div>}
+        {player.hasDropped && <div className="dropBadge">âœ“ ABATEU</div>}
         <CardBackStack count={player.cardCount ?? 0} vertical={vertical} />
         <div className="cardCount">{player.cardCount ?? 0} cartas</div>
       </div>
@@ -157,7 +157,7 @@ function RoundEndModal({ game, meId, onNextRound }) {
   const totals = totalsByPlayer(game);
   const ranking = rankingForGame(game);
   const isGameEnd = game.phase === "game_end" || game.roundIndex >= ROUNDS.length - 1;
-  const winnerMsg = game.log?.[0] || "Mão encerrada.";
+  const winnerMsg = game.log?.[0] || "MÃ£o encerrada.";
   const humanSeats = (game.players || []).filter(p => p.type === "human");
   const newGameReady = game.ready?.newGame || {};
   const readyCount = humanSeats.filter(p => newGameReady[p.id]).length;
@@ -167,14 +167,14 @@ function RoundEndModal({ game, meId, onNextRound }) {
     <div className="modalOverlay">
       <div className="roundModal">
         <div className="modalSub">{isGameEnd ? "JOGO ENCERRADO" : `${ROUNDS[game.roundIndex]?.label} ENCERRADA`}</div>
-        <div className="modalTitle">{isGameEnd ? `🏆 ${displayName(ranking[0]?.player, meId)} venceu o jogo!` : winnerMsg}</div>
+        <div className="modalTitle">{isGameEnd ? `ðŸ† ${displayName(ranking[0]?.player, meId)} venceu o jogo!` : winnerMsg}</div>
 
         {!isGameEnd && (
           <div className="scoreRows">
             {game.players?.map((p, i) => p.type !== "empty" && (
               <div className="scoreRow" key={p.id}>
                 <span>{displayName(p, meId)}</span>
-                <strong>{roundScores[i] == null ? "·" : `${roundScores[i] === 0 ? "0" : "+" + roundScores[i]} pts`}</strong>
+                <strong>{roundScores[i] == null ? "Â·" : `${roundScores[i] === 0 ? "0" : "+" + roundScores[i]} pts`}</strong>
               </div>
             ))}
           </div>
@@ -184,7 +184,7 @@ function RoundEndModal({ game, meId, onNextRound }) {
           <div className="rankingRows">
             {ranking.map((r, pos) => (
               <div className={`scoreRow rank${pos === 0 ? " champion" : ""}`} key={r.player.id}>
-                <span>{pos === 0 ? "🏆" : `${pos+1}.`} {displayName(r.player, meId)}</span>
+                <span>{pos === 0 ? "ðŸ†" : `${pos+1}.`} {displayName(r.player, meId)}</span>
                 <strong>{r.total} pts</strong>
               </div>
             ))}
@@ -203,7 +203,7 @@ function RoundEndModal({ game, meId, onNextRound }) {
           <div className="modalReady">Prontos para novo jogo: <b>{readyCount}/{readyNeeded}</b></div>
         )}
         <button className="gold full" disabled={isGameEnd && meReady} onClick={onNextRound}>
-          {isGameEnd ? (meReady ? "Aguardando jogadores..." : "Novo Jogo") : "→ Próxima Mão"}
+          {isGameEnd ? (meReady ? "Aguardando jogadores..." : "Novo Jogo") : "â†’ PrÃ³xima MÃ£o"}
         </button>
       </div>
     </div>
@@ -217,13 +217,13 @@ function Scoreboard({ game, meId, onClose }) {
     <div className="scoreboardPanel">
       <div className="scoreboardHeader">
         <strong>PLACAR GERAL</strong>
-        <button className="miniBtn" onClick={onClose}>✕ fechar</button>
+        <button className="miniBtn" onClick={onClose}>âœ• fechar</button>
       </div>
       <div className="scoreboardTableWrap">
         <table className="scoreboardTable">
           <thead>
             <tr>
-              <th>Mão</th>
+              <th>MÃ£o</th>
               {game.players?.filter(p=>p.type!=="empty").map(p => <th key={p.id}>{displayName(p, meId)}</th>)}
             </tr>
           </thead>
@@ -234,7 +234,7 @@ function Scoreboard({ game, meId, onClose }) {
                 {game.players?.filter(p=>p.type!=="empty").map(p => {
                   const originalIndex = game.players.findIndex(x=>x.id===p.id);
                   const v = activeRounds?.[ri]?.[originalIndex];
-                  return <td key={p.id}>{v == null ? "·" : v}</td>;
+                  return <td key={p.id}>{v == null ? "Â·" : v}</td>;
                 })}
               </tr>
             ))}
@@ -244,7 +244,7 @@ function Scoreboard({ game, meId, onClose }) {
                 const originalIndex = game.players.findIndex(x=>x.id===p.id);
                 const total = activeRounds.reduce((sum,row)=>sum + (row?.[originalIndex] ?? 0), 0);
                 const has = activeRounds.some(row=>row?.[originalIndex] != null);
-                return <td key={p.id}>{has ? total : "·"}</td>;
+                return <td key={p.id}>{has ? total : "Â·"}</td>;
               })}
             </tr>
           </tbody>
@@ -257,8 +257,8 @@ function Scoreboard({ game, meId, onClose }) {
 function ContractStatus({ selectedCount, me, round }) {
   if (!selectedCount) return null;
   const needed = round.trios * 3 + round.seqs * 4;
-  if (me?.hasDropped) return <span className="selBadge warn">Já abateste</span>;
-  return <span className={selectedCount >= needed ? "selBadge" : "selBadge warn"}>{selectedCount} sel. / mín. {needed}</span>;
+  if (me?.hasDropped) return <span className="selBadge warn">JÃ¡ abateste</span>;
+  return <span className={selectedCount >= needed ? "selBadge" : "selBadge warn"}>{selectedCount} sel. / mÃ­n. {needed}</span>;
 }
 
 
@@ -605,7 +605,7 @@ export default function App() {
       bottom: game.players.find(p => p.id === relative(0)),
       // Counter-clockwise table: from your bottom seat, the next player is on the right,
       // then top, then left. This keeps the local player always at bottom while preserving
-      // the server authoritative order: seat1 → seat4 → seat3 → seat2.
+      // the server authoritative order: seat1 â†’ seat4 â†’ seat3 â†’ seat2.
       right: game.players.find(p => p.id === relative(1)),
       top: game.players.find(p => p.id === relative(2)),
       left: game.players.find(p => p.id === relative(3)),
@@ -901,7 +901,7 @@ export default function App() {
         <p className={connected ? "ok" : "bad"}>Server: {connected ? "connected" : "disconnected"}</p>
         <div className="lobbyBox">
           <h2 style={{color:'#ffd700', margin:0}}>A reconectar...</h2>
-          <p style={{color:'rgba(255,255,255,.7)'}}>A tentar voltar à sala {code || globalStore.getItem("continental_roomCode") || ""}.</p>
+          <p style={{color:'rgba(255,255,255,.7)'}}>A tentar voltar Ã  sala {code || globalStore.getItem("continental_roomCode") || ""}.</p>
           <button className="blue" onClick={leaveLocalRoom}>Cancelar / sair da sala</button>
         </div>
       </div>
@@ -923,7 +923,7 @@ export default function App() {
           <h1>CONTINENTAL</h1>
           <span className={isMyTurn ? "status my" : "status"}>{isMyTurn ? "SUA VEZ" : `VEZ: ${displayName(game.players.find(p=>p.id===game.turn), viewerSeatId).toUpperCase()}`}</span>
           <div className="roomActions">
-            <span className={connected ? "netStatus ok" : "netStatus bad"}>{connected ? "online" : "offline"}</span><button className="blue" onClick={()=>setShowBoard(v=>!v)}>📊 Placar</button><button className="blue" onClick={copyInviteLink}>Link: {game.roomCode}</button>
+            <span className={connected ? "netStatus ok" : "netStatus bad"}>{connected ? "online" : "offline"}</span><button className="blue" onClick={()=>setShowBoard(v=>!v)}>ðŸ“Š Placar</button><button className="blue" onClick={copyInviteLink}>Link: {game.roomCode}</button>
             <button className="blue" disabled={roomFull || game.phase !== "lobby" || pendingAction} onClick={()=>emit("add_bot", { code })}>Add Bot</button>
             <button className="gold" disabled={game.phase !== "lobby" || pendingAction || meStartReady} onClick={()=>emit("start_game", { code })}>{startButtonLabel}</button><button className="blue" onClick={leaveLocalRoom}>Sair</button>
           </div>
@@ -932,10 +932,10 @@ export default function App() {
         {error && <div className="toastError">{error}</div>}
         {canContra && (
           <div className="contraModal">
-            <div className="contraTitle">⚡ Comprar contra?</div>
+            <div className="contraTitle">âš¡ Comprar contra?</div>
             <div className="contraText">{cardLabel(contraCard)} foi descartado</div>
             <div className={contraNeedsPenalty(viewerSeatId, game?.contra?.discardedBy) ? "contraPenalty penalty" : "contraPenalty free"}>
-              {contraNeedsPenalty(viewerSeatId, game?.contra?.discardedBy) ? "+ pena" : "sem pena — depois tens de descartar"}
+              {contraNeedsPenalty(viewerSeatId, game?.contra?.discardedBy) ? "+ pena" : "sem pena â€” depois tens de descartar"}
             </div>
             <div className="contraActions">
               <button className="gold" disabled={actionBlocked} onClick={()=>action("buyContra")}>Comprar</button>
@@ -973,11 +973,11 @@ export default function App() {
 
         <section ref={handPanelRef} className="handPanel" data-player-seat={viewerSeatId}>
           <div className="handHeader">
-            <div><span className="greenDot" /> SUA MÃO {isMyTurn && <span className="turnBadge inline">▶ ATIVO</span>}</div>
+            <div><span className="greenDot" /> SUA MÃƒO {isMyTurn && <span className="turnBadge inline">â–¶ ATIVO</span>}</div>
             <div className="handActions">
               <span>{me?.cardCount ?? me?.cards?.length ?? 0} cartas</span>
               {selected.size > 0 && <ContractStatus selectedCount={selected.size} me={me} round={round} />}
-              <button className="blue" onClick={sortBySequence}>Sequência</button><button className="blue" onClick={sortByGroups}>Pares/Trios</button><button className="blue" disabled={!canDiscard || selected.size !== 1 || actionBlocked} onClick={discardSelected}>Descartar</button>
+              <button className="blue" onClick={sortBySequence}>SequÃªncia</button><button className="blue" onClick={sortByGroups}>Pares/Trios</button><button className="blue" disabled={!canDiscard || selected.size !== 1 || actionBlocked} onClick={discardSelected}>Descartar</button>
               <button className="gold" disabled={!canDiscard || selected.size < 3 || me?.hasDropped || actionBlocked} onClick={meldSelected}>Abater</button>
             </div>
           </div>
@@ -999,9 +999,9 @@ export default function App() {
               );
             })}
           </div>
-          {cardFlight && <div className={`cardFlight ${cardFlight.direction}`} style={cardFlight.style}><PlayingCard card={cardFlight.card} back={cardFlight.back} /></div>}
           {touchGhost && <div className="touchGhost touchGhostCards" style={{left:touchGhost.x, top:touchGhost.y}}>{touchGhost.cards?.length ? touchGhost.cards.map((c, i) => <div className="touchGhostCard" style={{"--ghost-index": i}} key={c.id || i}><PlayingCard card={c} /></div>) : (touchGhost.count > 1 ? `${touchGhost.count} cartas` : "1 carta")}</div>}
           </section>
+          {cardFlight && <div className={`cardFlight ${cardFlight.direction}`} style={cardFlight.style}><PlayingCard card={cardFlight.card} back={cardFlight.back} /></div>}
       </main>
     </div>
   );
